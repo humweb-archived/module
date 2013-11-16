@@ -4,12 +4,20 @@ use Carbon\Carbon;
 
 /**
  * Module Repository class
+ * 
  */
 class Repository
 {
     protected $model;
     protected $fileloader;
 
+    /**
+     * Create a new repository instance
+     * 
+     * @param Ryun\Module\Provider $provider
+     * @param Ryun\Module\LoaderInterface $fileloader
+     * @param Ryun\Module\StoreInterface $model
+     */
     public function __construct(Provider $provider = null, LoaderInterface $fileloader = null, StoreInterface $model = null)
     {
         $this->fileloader = $fileloader;
@@ -17,19 +25,32 @@ class Repository
         $this->model = $model;
     }
 
-
+    /**
+     * Find a single entry
+     * 
+     * @param  string $slug
+     * @return array
+     */
     public function find($slug)
     {
         return $this->model->findBy('slug', $slug);
     }
  
-
+    /**
+     * Fetch only modules that are installed
+     * 
+     * @return array
+     */
     public function getInstalled()
     {
         return $this->model->findBy('status', ProviderInterface::STATUS_DISABLED, '!=');
     }
 
-
+    /**
+     * Fetch only modules that are enabled
+     * 
+     * @return array
+     */
     public function getEnabled()
     {
         return $this->model->findBy('status', ProviderInterface::STATUS_INSTALLED);
@@ -40,25 +61,46 @@ class Repository
     // Update Module Status
     //-------------------------------------------------------------
 
+    /**
+     * Enable module
+     * 
+     * @param  string $slug
+     * @return bool
+     */
     public function enable($slug)
     {
         return $this->setStatus($slug, ProviderInterface::STATUS_INSTALLED);
     }
 
-
+    /**
+     * Disable module
+     * 
+     * @param  string $slug
+     * @return bool
+     */
     public function disable($slug)
     {
         return $this->setStatus($slug, ProviderInterface::STATUS_DISABLED);
     }
 
-
+    /**
+     * Install module
+     * 
+     * @param  string $slug
+     * @return bool
+     */
     public function install($slug)
     {
         return $this->setStatus($slug, ProviderInterface::STATUS_INSTALLED);
     }
     
-
-    public function setStatus($slug, $status)
+    /**
+     * Helper method to update the status
+     * 
+     * @param [type] $slug   [description]
+     * @param [type] $status [description]
+     */
+    protected function setStatus($slug, $status)
     {
         return $this->model->update($slug, ['status' => $status]);
     }
@@ -89,8 +131,6 @@ class Repository
             }
         }
 
-        //foreach (Modules::getModulePaths() as $path) {
-
         //Installed Modules
         foreach ($this->fileloader->getFolders() as $path)
         {
@@ -115,7 +155,6 @@ class Repository
                 {
                     // @todo Update db
 
-                    //static::where('slug', '=', $slug)->update($return[$slug]);
                     $return[$slug]['status'] = ProviderInterface::STATUS_UPGRADE;
                     $this->model->update($slug, $return[$slug]);
                     Log::info(sprintf('The information of the module "%s" has been updated', $slug));
@@ -145,8 +184,9 @@ class Repository
 
     /**
      * Upgrade Module
-     * @param  [type] $slug [description]
-     * @return [type]       [description]
+     * 
+     * @param  string $slug
+     * @return bool
      */
     public function upgrade($slug)
     {
@@ -159,7 +199,7 @@ class Repository
 
             Log::info(sprintf('The module "%s" has been upgraded to version "%s"', $slug, $module->version));
 
-            return $module->version;
+            return true;
         }
 
         return false;

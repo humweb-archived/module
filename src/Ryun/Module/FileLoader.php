@@ -19,14 +19,6 @@ class FileLoader {
 	protected $defaultPath;
 	protected $modulePaths = [];
 
-
-	/**
-	 * A cache of whether namespaces and groups exists.
-	 *
-	 * @var array
-	 */
-	protected $exists = array();
-
 	/**
 	 * Create a new file configuration loader.
 	 *
@@ -99,15 +91,30 @@ class FileLoader {
         return null;
     }
 
+    /**
+     * Get module path from the list
+     * 
+     * @param  string $name
+     * @return string
+     */
     public function getPath($name)
     {
     	return $this->modulePaths[$name];
     }
 
+    /**
+     * Check if a module's file exists
+     * 
+     * @param  string $name
+     * @param  string $file
+     * @return bool
+     */
     public function fileExists($name, $file)
     {
     	return file_exists($this->getFile($name, $file));
     }
+
+
 	/**
 	 * Get a file's contents by requiring it.
 	 *

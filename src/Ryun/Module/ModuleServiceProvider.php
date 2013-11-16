@@ -31,7 +31,11 @@ class ModuleServiceProvider extends ServiceProvider {
         
         $this->app->bindShared('modules', function ($app)
         {
-            return new Provider($app);
+           return new Provider($app,
+						       $app['modules.container'],
+						       $app['modules.manager'],
+						       $app['modules.fileloader'],
+						       $app['config']);
         });
 
         $this->app->bindShared('modules.setup', function($app) 

@@ -38,9 +38,6 @@ class Manager extends AbstractManager {
 
 		$connection = $this->app['db']->connection($connection);
 
-		// We allow the developer to specify which connection and table should be used
-		// to store the cached items. We also need to grab a prefix in case a table
-		// is being used by multiple applications although this is very unlikely.
 		$table = $this->app['config']['module::db.table'];
 
 		return $this->repository(new DatabaseStore($connection, $table));

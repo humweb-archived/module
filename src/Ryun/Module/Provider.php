@@ -1,9 +1,7 @@
 <?php namespace Ryun\Module;
 
-use App, Config;
-use Illuminate\Filesystem\Filesystem;
-
 /**
+ * Module Provider class
  * @todo  load module permissions
  */
 class Provider implements ProviderInterface
@@ -32,9 +30,7 @@ class Provider implements ProviderInterface
     protected $container;
     protected $manager;
     protected $loader;
-
-    public $module_paths = [];
-    public $module_providers = [];
+    protected $config;
 
 
     /**
@@ -43,16 +39,17 @@ class Provider implements ProviderInterface
      * @param  \Illuminate\Foundation\Application $app
      * @return void
      */
-    public function __construct($app)
+    public function __construct($app, $container, $manager, $loader, $config)
     {
         $this->app       = $app;
-        $this->container = $this->app['modules.container'];
-        $this->manager   = $this->app['modules.manager'];
-        $this->loader    = $this->app['modules.fileloader'];
+        $this->container = $container;
+        $this->manager   = $manager;
+        $this->loader    = $loader;
+        $this->config    = $config;
 
         //@todo use ConfigInterface
-        $this->path      = $this->app['config']['module::path'];
-        $this->namespace = $this->app['config']['module::namespace'];
+        $this->path      = $this->config['module::path'];
+        $this->namespace = $this->config['module::namespace'];
     }
 
     public function getPath()
@@ -97,6 +94,7 @@ class Provider implements ProviderInterface
 
     /**
      * This uses our abstract container
+     * 
      * @param  [type] $module [description]
      * @param  string $class  [description]
      * @return [type]         [description]

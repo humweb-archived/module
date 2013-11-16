@@ -4,6 +4,7 @@ use Closure;
 
 /**
 * Module Container
+* 
 * @note
 * Basicly a slim wrapper around the Illuminate IoC container
 * It also uses a prefix which can be changed in the config file
