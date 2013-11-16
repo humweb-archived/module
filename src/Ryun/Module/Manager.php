@@ -6,7 +6,7 @@ class Manager extends AbstractManager {
 
 	
 	/**
-	 * Create an instance of the array cache driver.
+	 * Create an instance of the array module driver.
 	 *
 	 * @return \Ryun\Module\ArrayStore
 	 */
@@ -16,7 +16,7 @@ class Manager extends AbstractManager {
 	}
 
 	/**
-	 * Create an instance of the file cache driver.
+	 * Create an instance of the file module driver.
 	 *
 	 * @return \Ryun\Module\FileStore
 	 */
@@ -28,7 +28,7 @@ class Manager extends AbstractManager {
 	}
 
 	/**
-	 * Create an instance of the database cache driver.
+	 * Create an instance of the database module driver.
 	 *
 	 * @return \Ryun\Module\DatabaseStore
 	 */
@@ -48,7 +48,7 @@ class Manager extends AbstractManager {
 
 
 	/**
-	 * Create a new cache repository with the given implementation.
+	 * Create a new module repository with the given implementation.
 	 *
 	 * @param  \Ryun\Module\StoreInterface  $store
 	 * @return \Ryun\Module\Repository
@@ -59,7 +59,7 @@ class Manager extends AbstractManager {
 	}
 
 	/**
-	 * Get the default cache driver name.
+	 * Get the default module driver name.
 	 *
 	 * @return string
 	 */

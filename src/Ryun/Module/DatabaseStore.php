@@ -12,7 +12,7 @@ class DatabaseStore implements StoreInterface {
 	protected $connection;
 
 	/**
-	 * The name of the cache table.
+	 * The name of the storage table.
 	 *
 	 * @var string
 	 */
@@ -85,7 +85,7 @@ class DatabaseStore implements StoreInterface {
     }
 
 	/**
-	 * Get a query builder for the cache table.
+	 * Get a query builder for the module table.
 	 *
 	 * @return \Illuminate\Database\Query\Builder
 	 */
