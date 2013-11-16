@@ -1,8 +1,9 @@
 {
     "name": "ryun/module",
     "description": "Module system for laravel framework",
-	"keywords": ["module", "laravel"],
-	"license": "MIT",
+    "keywords": ["module", "laravel"],
+    "license": "MIT",
+    "homepage": "https://github.com/ryun/module",
     "authors": [
         {
             "name": "ryun shofner",
