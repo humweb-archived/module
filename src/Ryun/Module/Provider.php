@@ -2,7 +2,6 @@
 
 use App, Config;
 use Illuminate\Filesystem\Filesystem;
-use Basic\Core\Models\ModuleModel;
 
 /**
  * @todo  load module permissions
@@ -39,7 +38,7 @@ class Provider implements ProviderInterface
 
 
     /**
-     * Create a new manager instance.
+     * Create a new provider instance.
      *
      * @param  \Illuminate\Foundation\Application $app
      * @return void
@@ -191,8 +190,6 @@ class Provider implements ProviderInterface
             $this->app['view']->addNamespace($name, $path.'/Views');
             $this->app['config']->addNamespace($name, $path.'/config');
             $this->app['translator']->addNamespace($name, $path.'/lang');
-            //$asset_path = $vendor ? $vendor.'/'.$name : $name;
-            //App::make('asset')->addNamespace($name, $asset_path.'/asset');
     }
 
 }
