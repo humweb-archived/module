@@ -1,6 +1,6 @@
 {
     "name": "ryun/module",
-    "description": "",
+    "description": "Module system for laravel framework",
     "authors": [
         {
             "name": "ryun shofner",
