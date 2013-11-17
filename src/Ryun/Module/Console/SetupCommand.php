@@ -5,8 +5,6 @@ use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-// use DB, View, File, Str;
-
 class SetupCommand extends Command {
 
 	/**
@@ -66,8 +64,9 @@ class SetupCommand extends Command {
 
 		$this->info('Modules path set to: '.$path);
 		$this->info('Modules namespace set to: '.$namespace);
+		$this->info('');
+		$this->info('Now add a psr-0 autoload entry for "'.$namespace.'" in the composer.json file."');
 
-		//Show example entry for psr-0 loader
 	}
 
 	protected function runMigration($path = null)
@@ -101,7 +100,7 @@ class SetupCommand extends Command {
 		//Ask config values
 		$path = $path ?: $this->ask('Base path for modules: '.base_path().'/', $defaultPath);
 		$namespace = $namespace ?: $this->ask('Root namespace for modules folder?', $defaultNamespace);
-
+		
 		//Setup find & replace arrays
 		$find = [$defaultPath, $defaultNamespace];
 		$replace = [$path, $namespace];

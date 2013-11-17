@@ -2,7 +2,7 @@
 return array(
 	'container_prefix' => 'module.',
 	//Modules namespace
-	'namespace' => 'App\\Modules',
+	'namespace' => 'App\Modules',
 	//Modules path
 	'path'      => 'app/Modules',
 

@@ -40,7 +40,7 @@ class ModuleServiceProvider extends ServiceProvider {
 
         $this->app->bindShared('modules.command.setup', function($app) 
         {
-                return new Console\SetupCommand($app['files']);
+            return new Console\SetupCommand($app['files']);
         });
 
 		$this->commands('modules.command.setup');
