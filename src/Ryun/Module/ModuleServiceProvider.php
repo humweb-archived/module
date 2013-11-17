@@ -38,10 +38,12 @@ class ModuleServiceProvider extends ServiceProvider {
 						       $app['config']);
         });
 
-        $this->app->bindShared('modules.setup', function($app) 
+        $this->app->bindShared('modules.command.setup', function($app) 
         {
-                return new Commands\SetupCommand;
+                return new Console\SetupCommand($app['files']);
         });
+
+		$this->commands('modules.command.setup');
     }
 	
 	/**

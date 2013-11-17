@@ -79,15 +79,24 @@ class Provider implements ProviderInterface
     public function boot()
     {
         // Collect module dirs
-        $modules = $this->loader->getFolders();
+        if ( ! ($modules = $this->loader->getFolders()))
+        {
+            if ( ! $this->app->runningInConsole())
+            {
+                throw new \Exception("Modules folder not found, may need to run setup.", 1);
+            }
+            return false;
+        }
 
         //Build an associative array of modules [modulename => path]
         foreach ($modules as $name => $path)
         {
             if ($this->validateModule($name))
             {
+                $this->app['events']->fire('before.boot: '.$name, array($this->app, $name));
                 $this->bootModule($name);
                 $this->addNamespace($name);
+                $this->app['events']->fire('after.boot: '.$name, array($this->app, $name));
             }
         }
     }
@@ -112,12 +121,16 @@ class Provider implements ProviderInterface
             {
                 throw new \Exception("Error Module Class Not Found", 1);
             }
-
+            // $app = $this->app;
             //Bind module to container for later use
-            $this->container->bind($module, function() use ($className)
+            $this->app['events']->fire('before.bind: '.$module, array($this->app, $module, $className));
+
+            $this->container->bind($module, function($app) use ($className)
             {
-                return new $className();
+                return new $className($app);
             });
+
+            $this->app['events']->fire('after.bind: '.$module, array($this->app, $module, $className));
         }
 
         return $this->container->instance($module);

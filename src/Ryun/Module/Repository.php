@@ -108,7 +108,9 @@ class Repository
     //-------------------------------------------------------------
     // Import new modules to data store
     //-------------------------------------------------------------
-    public function import_unknown()
+
+    //@todo should this go in the provider
+    public function importUnknown()
     {
         $modules = array();
         $return = array();

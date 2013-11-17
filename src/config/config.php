@@ -4,7 +4,7 @@ return array(
 	//Modules namespace
 	'namespace' => 'App\\Modules',
 	//Modules path
-	'path'      => app_path().'/Modules',
+	'path'      => 'app/Modules',
 
 	//DatabaseStorage
 	'db' => array(

@@ -36,17 +36,10 @@ class DatabaseStore implements StoreInterface {
      * @var string
      */
     protected $table = 'modules';
-
-    /**
-     * The attributes that aren't mass assignable
-     *
-     * @var array
-     */
-    protected $guarded = array();
-  	
+	
     public function find($slug)
     {
-        return $this->table()->where('slug', $slug)->first();
+      return $this->table()->where('slug', $slug)->first();
     }
     
     public function getEnabled()

@@ -40,10 +40,16 @@ class FileLoader {
      * @return void
      */
     public function getFolders()
-    {
+	{
+		if ( ! $this->files->isDirectory($this->defaultPath))
+		{
+			return false;
+		}
+
     	if (empty($this->modulePaths))
     	{
 	    	$path = $this->defaultPath;
+			
 
 	        // Collect module dirs
 	   		$modules = ! empty($path) ? $this->files->directories($path) : [];
