@@ -1,11 +1,5 @@
 <?php namespace Ryun\Module;
 
-use App, Config;
-use Illuminate\Filesystem\Filesystem;
-
-/**
- * @todo  load module permissions
- */
 interface ProviderInterface
 {
     const STATUS_DISABLED  = -1;

@@ -1,0 +1,23 @@
+<?php namespace {{namespace}}\{{name}};
+
+use Ryun\Module\AbstractModule;
+
+class Module extends AbstractModule {
+	public $name        = '{{name}}';
+	public $description = '{{name}} module';
+	public $version     = '';
+	public $author      = '{{author}}';
+	public $email       = '{{email}}';
+	public $website     = '';
+	public $license     = '';
+	public $autoload    = ["routes.php"];
+	
+	/**
+	 * Use this method for things like register stuff with the IoC container at runtime
+	 */
+	public function boot(){}
+	
+	public function install(){return true;}
+	public function upgrade(){return true;}
+
+}

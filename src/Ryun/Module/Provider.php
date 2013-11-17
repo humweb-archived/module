@@ -2,6 +2,7 @@
 
 /**
  * Module Provider class
+ * 
  * @todo  load module permissions
  */
 class Provider implements ProviderInterface
@@ -10,7 +11,7 @@ class Provider implements ProviderInterface
     /**
      * The application instance.
      *
-     * @var \Illuminate\Foundation\Application
+     * @var Illuminate\Foundation\Application
      */
     protected $app;
 
@@ -23,23 +24,56 @@ class Provider implements ProviderInterface
 
     /** 
      * Modules root namespace
-     * @var [type]
+     * 
+     * @var string
      */
     public $namespace;
 
+    /**
+     * Module container
+     * 
+     * @var Ryun\Module\Container
+     */
     protected $container;
+
+    /**
+     * Manager
+     * 
+     * @var Ryun\Module\Manager
+     */
     protected $manager;
+
+    /**
+     * Fileloader
+     * 
+     * @var Ryun\Module\Fileloader
+     */
     protected $loader;
+
+    /**
+     * Config instance
+     * 
+     * @var Illuminate\Config\Repository
+     */
     protected $config;
 
 
     /**
      * Create a new provider instance.
      *
-     * @param  \Illuminate\Foundation\Application $app
+     * @param  
      * @return void
      */
-    public function __construct($app, $container, $manager, $loader, $config)
+    
+    /**
+     * [__construct description]
+     * @param Illuminate\Foundation\Application $app
+     * @param Container  $container
+     * @param Manager    $manager
+     * @param Fileloader $loader
+     * @param Illuminate\Config\Repository $config
+     */
+    public function __construct($app, Container $container, Manager $manager, Fileloader $loader, $config)
     {
         $this->app       = $app;
         $this->container = $container;
@@ -47,7 +81,6 @@ class Provider implements ProviderInterface
         $this->loader    = $loader;
         $this->config    = $config;
 
-        //@todo use ConfigInterface
         $this->path      = $this->config['module::path'];
         $this->namespace = $this->config['module::namespace'];
     }
@@ -61,6 +94,7 @@ class Provider implements ProviderInterface
     {
         return $this->namespace;
     }
+
     public function getContainer()
     {
         return $this->container;
@@ -74,17 +108,21 @@ class Provider implements ProviderInterface
     /**
      * Load all required files from the modules at boot
      *
-     * @return void
+     * @return bool|void
      */
     public function boot()
     {
-        // Collect module dirs
+        // Maybe? collect module dirs
         if ( ! ($modules = $this->loader->getFolders()))
         {
+            // If we are not running in console, and we can't find any folders,
+            // stop the show right here!
             if ( ! $this->app->runningInConsole())
             {
                 throw new \Exception("Modules folder not found, may need to run setup.", 1);
             }
+
+            // If we are not in a console this allows `module:setup` command
             return false;
         }
 
@@ -104,9 +142,9 @@ class Provider implements ProviderInterface
     /**
      * This uses our abstract container
      * 
-     * @param  [type] $module [description]
-     * @param  string $class  [description]
-     * @return [type]         [description]
+     * @param  string $module
+     * @param  string $class
+     * @return AbstractModule
      */
     public function instance($module, $class = 'Module')
     {
@@ -121,15 +159,17 @@ class Provider implements ProviderInterface
             {
                 throw new \Exception("Error Module Class Not Found", 1);
             }
-            // $app = $this->app;
-            //Bind module to container for later use
+
+            //Fire event before we bind module
             $this->app['events']->fire('before.bind: '.$module, array($this->app, $module, $className));
 
+            //Bind module provider to container for later use
             $this->container->bind($module, function($app) use ($className)
             {
                 return new $className($app);
             });
 
+            //Fire an event after we bind module
             $this->app['events']->fire('after.bind: '.$module, array($this->app, $module, $className));
         }
 
@@ -138,9 +178,9 @@ class Provider implements ProviderInterface
 
     /**
      * Checks if modules service provider is available
-     * Logs error
      *
-     * @return void
+     * @param  string $module
+     * @return bool
      */
     public function validateModule($module)
     {
@@ -199,8 +239,8 @@ class Provider implements ProviderInterface
             $path =  $this->loader->getPath($name);
 
             $this->app['view']->addNamespace($name, $path.'/Views');
-            $this->app['config']->addNamespace($name, $path.'/config');
-            $this->app['translator']->addNamespace($name, $path.'/lang');
+            $this->app['config']->addNamespace($name, $path.'/Config');
+            $this->app['translator']->addNamespace($name, $path.'/Lang');
     }
 
 }

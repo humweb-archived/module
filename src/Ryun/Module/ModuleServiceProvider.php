@@ -38,13 +38,35 @@ class ModuleServiceProvider extends ServiceProvider {
 						       $app['config']);
         });
 
+		$this->registerSetupCommand();
+		$this->registerCreatorCommand();
+    }
+	
+
+	public function registerSetupCommand()
+	{
         $this->app->bindShared('modules.command.setup', function($app) 
         {
             return new Console\SetupCommand($app['files']);
         });
 
 		$this->commands('modules.command.setup');
-    }
+	}
+	
+	public function registerCreatorCommand()
+	{
+		$this->app->bindShared('modules.creator', function($app)
+		{
+			return new ModuleCreator($app['files']);
+		});
+
+		$this->app->bindShared('modules.generator.command', function($app)
+		{
+			return new Console\ModuleGeneratorCommand($app['modules.creator']);
+		});
+
+		$this->commands('modules.generator.command');
+	}
 	
 	/**
 	 * Bootstrap the application events.

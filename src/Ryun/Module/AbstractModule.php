@@ -16,7 +16,7 @@ abstract class AbstractModule
     {
         $this->app = $app;
     }
-    public function boot($app) {return true;}
+    public function boot() {return true;}
 
     public function install() {return true;}
     public function upgrade() {return true;}
