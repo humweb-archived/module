@@ -31,7 +31,7 @@ composer update
 #### Step 2
 Add the following to the list of service providres in app/config/app.php.
 ```
-	'Ryun\Module\ModuleServiceProvider',
+'Ryun\Module\ModuleServiceProvider',
 ```
 
 #### Step 3
@@ -47,6 +47,10 @@ For this example the modules will be stored in the folder `app/Modules/` with th
 "psr-0": {
     "App\\Modules": ""
 }
+```
+Then run composer update one last time
+```
+composer update
 ```
 
 Generate Module Command
