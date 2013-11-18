@@ -26,7 +26,7 @@ class FileStore extends ArrayStore
         $this->file = $file;
         $this->filepath = $filepath;
 
-        $data = $this->load();
+        $data = $this->getFileContents();
 
         if ( ! is_array($this->storage))
         {
@@ -39,7 +39,7 @@ class FileStore extends ArrayStore
 
     public function __destruct()
     {
-        $this->write
+        $this->writeFileContents();
     }
 
     /**
@@ -130,20 +130,12 @@ class FileStore extends ArrayStore
     }
 
 
-    protected function load()
-    {
-        if (empty($this->storage))
-        {
-            $this->storage = $this->getFileContents();
-        }
-        return $this->storage;
-    }
-    protected function getFileContent()
+    protected function getFileContents()
     {
         return $this->file->getRequire($this->filepath);
     }
 
-    protected function writeFileContent()
+    protected function writeFileContents()
     {
         $contents = "<?php\n return ".var_export($this->storage, true) .';';
         return $this->file->put($this->filepath, $contents);
