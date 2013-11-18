@@ -6,7 +6,7 @@ class Manager extends AbstractManager {
 
 	
 	/**
-	 * Create an instance of the array module driver.
+	 * Create an instance of the array driver.
 	 *
 	 * @return \Ryun\Module\ArrayStore
 	 */
@@ -16,7 +16,7 @@ class Manager extends AbstractManager {
 	}
 
 	/**
-	 * Create an instance of the file module driver.
+	 * Create an instance of the file driver.
 	 *
 	 * @return \Ryun\Module\FileStore
 	 */
@@ -28,7 +28,7 @@ class Manager extends AbstractManager {
 	}
 
 	/**
-	 * Create an instance of the database module driver.
+	 * Create an instance of the database driver.
 	 *
 	 * @return \Ryun\Module\DatabaseStore
 	 */

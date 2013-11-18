@@ -22,7 +22,7 @@ class FileStore extends ArrayStore
     public function __construct(Filesystem $file, $filepath = '', array $data = [])
     {
         parent::__construct($data);
-        
+
         $this->file = $file;
         $this->filepath = $filepath;
 
