@@ -140,13 +140,12 @@ class FileStore extends ArrayStore
     }
     protected function getFileContent()
     {
-        $contents = $this->file->get($this->filepath);
-        return json_decode($contents);
+        return $this->file->getRequire($this->filepath);
     }
 
     protected function writeFileContent()
     {
-        $contents = json_encode($this->storage);
+        $contents = "<?php\n return ".var_export($this->storage, true) .';';
         return $this->file->put($this->filepath, $contents);
     }
 }
