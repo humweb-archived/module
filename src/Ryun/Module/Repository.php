@@ -97,8 +97,8 @@ class Repository
     /**
      * Helper method to update the status
      * 
-     * @param string $slug   [description]
-     * @param int $status [description]
+     * @param string $slug
+     * @param int $status
      */
     protected function setStatus($slug, $status)
     {

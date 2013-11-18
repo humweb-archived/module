@@ -49,12 +49,11 @@ class FileLoader {
     	if (empty($this->modulePaths))
     	{
 	    	$path = $this->defaultPath;
-			
 
 	        // Collect module dirs
 	   		$modules = ! empty($path) ? $this->files->directories($path) : [];
 
-	        //Build an associative array of modules [modulename => path]
+	        //Build an associative array `name => path`
 	        foreach ($modules as $module)
 	        {
 	            //parse modules name

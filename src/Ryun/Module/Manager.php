@@ -22,7 +22,7 @@ class Manager extends AbstractManager {
 	 */
 	protected function createFileDriver()
 	{
-		$path = $this->app['config']['module::storage.path'];
+		$path = $this->app['config']['module::storage_path'];
 
 		return $this->repository(new FileStore($this->app['files'], $path));
 	}

@@ -10,7 +10,6 @@ class ModuleCreator {
 	 * @var \Illuminate\Filesystem
 	 */
 	protected $files;
-	protected $directory;
 
 	/**
 	 * The building blocks of the module.
@@ -36,29 +35,28 @@ class ModuleCreator {
 	}
 
 	/**
-	 * Create a new module stub.
+	 * Creates a new module
 	 *
-	 * @param  $meta
+	 * @param  array   $meta
 	 * @param  string  $path
-	 * @param  bool    $plain
 	 * @return string
 	 */
 	public function create($meta, $path)
 	{
-		$this->directory = $this->createDirectory($meta, $path);
+		$directory = $this->createDirectory($meta, $path);
 
 		foreach ($this->blocks as $block)
 		{
-			$this->{"write{$block}"}($meta, $this->directory);
+			$this->{"write{$block}"}($meta, $directory);
 		}
 
-		return $this->directory;
+		return $directory;
 	}
 
 	/**
-	 * Create the boilerplate directories for a module.
+	 * Creates boilerplate directories
 	 *
-	 * @param  $meta
+	 * @param  array   $meta
 	 * @param  string  $directory
 	 * @return void
 	 */
@@ -77,7 +75,7 @@ class ModuleCreator {
 	/**
 	 * Write routes file
 	 *
-	 * @param  $meta
+	 * @param  array   $meta
 	 * @param  string  $directory
 	 * @return void
 	 */
@@ -85,13 +83,13 @@ class ModuleCreator {
 	{
 		$file = $directory.'/routes.php';
 		$stub = $this->files->get(__DIR__.'/stubs/routes.stub');
-
 		$this->files->put($file, $stub);
 	}
+
 	/**
 	 * Write config file
 	 *
-	 * @param  $meta
+	 * @param  array   $meta
 	 * @param  string  $directory
 	 * @return void
 	 */
@@ -105,7 +103,7 @@ class ModuleCreator {
 	/**
 	 * Write service provider file
 	 *
-	 * @param  $meta
+	 * @param  array   $meta
 	 * @param  string  $directory
 	 * @return void
 	 */
@@ -120,7 +118,7 @@ class ModuleCreator {
 	/**
 	 * Replace the placeholders in the stub file
 	 *
-	 * @param  $meta
+	 * @param  array   $meta
 	 * @param  string  $stub
 	 * @return string
 	 */
@@ -135,9 +133,9 @@ class ModuleCreator {
 	}
 
 	/**
-	 * Create a directory for the module.
+	 * Create the base directory for the module
 	 *
-	 * @param  $meta
+	 * @param  array   $meta
 	 * @param  string  $path
 	 * @return string
 	 */

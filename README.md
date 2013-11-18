@@ -48,7 +48,7 @@ For this example the modules will be stored in the folder `app/Modules/` with th
     "App\\Modules": ""
 }
 ```
-Then run composer update one last time
+Then run composer update one last time for this setup
 ```
 composer update
 ```

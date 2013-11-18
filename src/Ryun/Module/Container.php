@@ -7,7 +7,7 @@ use Closure;
 * 
 * @note
 * Basicly a slim wrapper around the Illuminate IoC container
-* It also uses a prefix which can be changed in the config file
+* It uses a prefix which can be changed in the config file
 */
 class Container
 {

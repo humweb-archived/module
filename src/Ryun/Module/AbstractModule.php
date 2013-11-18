@@ -2,37 +2,123 @@
 
 abstract class AbstractModule
 {
+    /**
+     * The application instance.
+     *
+     * @var Illuminate\Foundation\Application
+     */
     protected $app;
+
+    /**
+     * Module name
+     * @var string
+     */
     public $name          = 'n/a';
+
+    /**
+     * Module version
+     * @var string
+     */
     public $version       = 'n/a';
+
+    /**
+     * Module author
+     * @var string
+     */
     public $author        = 'n/a';
+
+    /**
+     * Module website
+     * @var string
+     */
     public $website       = 'n/a';
+
+    /**
+     * Module license
+     * @var string
+     */
     public $license       = 'n/a';
+
+    /**
+     * Module description
+     * @var string
+     */
     public $description   = 'n/a';
-    public $admin_section = 'Content';
+
+    /**
+     * Admin section to place the modules menu items under
+     * @var string
+     */
+    public $adminCategory = 'Content';
+
+    /**
+     * Autoload files
+     * @var array
+     */
     public $autoload      = [];
 
+
+    /**
+     * Create service provider instance
+     * @param Illuminate\Foundation\Application $app
+     */
     public function __construct($app)
     {
         $this->app = $app;
     }
-    public function boot() {return true;}
 
-    public function install() {return true;}
-    public function upgrade() {return true;}
+    /**
+     * Runs when module is booted
+     * 
+     * @return mixed
+     */
+    public function boot()
+    {
 
-    public function admin_menu()
+    }
+
+    /**
+     * Install logic for module
+     * 
+     * @return bool
+     */
+    public function install()
+    {
+        return true;
+    }
+
+    /**
+     * Upgrade logic for module
+     * 
+     * @return bool
+     */
+    public function upgrade()
+    {
+        return true;
+    }
+
+    /**
+     * Used modify admin menu
+     * 
+     * @return array
+     */
+    public function adminMenu()
     {
         return [];
     }
 
+    /**
+     * Sub/Quick menu items
+     * 
+     * @return array
+     */
     public function admin_quick_menu()
     {
         return [];
     }
 
     /**
-     * Register the package's custom Artisan commands.
+     * Register the modules custom Artisan commands.
      *
      * @param  array  $commands
      * @return void
@@ -41,12 +127,7 @@ abstract class AbstractModule
     {
         $commands = is_array($commands) ? $commands : func_get_args();
 
-        // To register the commands with Artisan, we will grab each of the arguments
-        // passed into the method and listen for Artisan "start" event which will
-        // give us the Artisan console instance which we will give commands to.
-        $events = $this->app['events'];
-
-        $events->listen('artisan.start', function($artisan) use ($commands)
+        $this->app['events']->listen('artisan.start', function($artisan) use ($commands)
         {
             $artisan->resolveCommands($commands);
         });
