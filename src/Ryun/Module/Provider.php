@@ -66,7 +66,7 @@ class Provider implements ProviderInterface
      */
     
     /**
-     * [__construct description]
+     * Creates a new Provider instance
      * @param Illuminate\Foundation\Application $app
      * @param Container  $container
      * @param Manager    $manager
