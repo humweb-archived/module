@@ -73,9 +73,9 @@ class Provider implements ProviderInterface
      * @param Fileloader $loader
      * @param Illuminate\Config\Repository $config
      */
-    public function __construct($app, Container $container, Manager $manager, Fileloader $loader, $config)
+    public function __construct($app = null, Container $container, Manager $manager, Fileloader $loader, $config)
     {
-        $this->app       = $app;
+        $this->app       = $app ?: new Illuminate\Container\Container;
         $this->container = $container;
         $this->manager   = $manager;
         $this->loader    = $loader;

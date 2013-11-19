@@ -18,11 +18,27 @@ class Repository
      * @param Ryun\Module\LoaderInterface $fileloader
      * @param Ryun\Module\StoreInterface $model
      */
-    public function __construct(Provider $provider = null, LoaderInterface $fileloader = null, StoreInterface $model = null)
+    public function __construct(ProviderInterface $provider = null, LoaderInterface $fileloader = null, StoreInterface $model = null)
     {
         $this->fileloader = $fileloader;
         $this->provider = $provider;
         $this->model = $model;
+    }
+
+    public function getStore()
+    {
+        return $this->model;
+    }
+    
+    /**
+     * Insert a single entry
+     * 
+     * @param  string $slug
+     * @return array
+     */
+    public function insert($slug, $attr=[])
+    {
+        return $this->model->insert($slug, $attr);
     }
 
     /**
@@ -33,7 +49,7 @@ class Repository
      */
     public function find($slug)
     {
-        return $this->model->findBy('slug', $slug);
+        return $this->model->find($slug);
     }
  
     /**
@@ -43,7 +59,7 @@ class Repository
      */
     public function getInstalled()
     {
-        return $this->model->findBy('status', ProviderInterface::STATUS_DISABLED, '!=');
+        return $this->model->getInstalled();
     }
 
     /**
@@ -53,7 +69,7 @@ class Repository
      */
     public function getEnabled()
     {
-        return $this->model->findBy('status', ProviderInterface::STATUS_INSTALLED);
+        return $this->model->getEnabled();
     }
 
 

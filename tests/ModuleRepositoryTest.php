@@ -4,14 +4,13 @@ use Mockery as m;
 use Ryun\Module\ArrayStore;
 use Ryun\Module\Repository;
 
-class CacheRepositoryTest extends PHPUnit_Framework_TestCase {
+class ModuleRepositoryTest extends PHPUnit_Framework_TestCase {
 
 	public function tearDown()
 	{
 		m::close();
 	}
-
-
+	
 	public function testGetReturnsValue()
 	{
 		$repo = $this->getRepository();
@@ -21,12 +20,13 @@ class CacheRepositoryTest extends PHPUnit_Framework_TestCase {
 	
 	public function testSetValueAndReturnValue()
 	{
+		$attr = ['bar'=>'baz'];
 		$repo = $this->getRepository();
-		$repo->getStore()->shouldReceive('insert')->once()->with('foo', ['bar'=>'baz']);
-		$repo->getStore()->shouldReceive('find')->once()->with('foo')->andReturn(['bar'=>'baz']);
-		$result = $repo->insert('foo', ['bar'=>'baz']);
+		$repo->getStore()->shouldReceive('insert')->once()->with('foo', $attr);
+		$repo->getStore()->shouldReceive('find')->once()->with('foo')->andReturn($attr);
+		$result = $repo->insert('foo', $attr);
 		$result = $repo->find('foo');
-		$this->assertEquals(['bar'=>'baz'], $result);
+		$this->assertEquals($attr, $result);
 	}
 
 

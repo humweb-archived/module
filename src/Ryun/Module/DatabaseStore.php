@@ -42,9 +42,19 @@ class DatabaseStore implements StoreInterface {
       return $this->table()->where('slug', $slug)->first();
     }
     
+    public function getAll()
+    {
+      return $this->table()->all();
+    }
+    
     public function getEnabled()
     {
         return $this->getBy('status', ProviderInterface::STATUS_INSTALLED);
+    }
+    
+    public function getDisabled()
+    {
+        return $this->getBy('status', ProviderInterface::STATUS_DISABLED);
     }
 
     public function getInstalled()
@@ -57,7 +67,7 @@ class DatabaseStore implements StoreInterface {
         return $this->getBy('status', ProviderInterface::STATUS_UPGRADE);
     }
 
-    public function insert($attributes = [])
+    public function insert($slug, $attributes = [])
     {
         return $this->table()->insertGetId($attributes);
     }
@@ -72,7 +82,7 @@ class DatabaseStore implements StoreInterface {
         return $this->table()->where('slug', $slug)->delete();
     }
 
-    public function getBy($field, $value, $op = '=')
+    protected function getBy($field, $value, $op = '=')
     {
         return $this->table()->where($field, $op, $value)->get()->toArray();
     }

@@ -37,7 +37,7 @@ class ArrayStore implements StoreInterface
      * @param  array $attributes
      * @return bool
      */
-    public function insert(array $attributes = [])
+    public function insert($slug, array $attributes = [])
     {
         return $this->update($slug, $attributes);
     }
@@ -50,7 +50,7 @@ class ArrayStore implements StoreInterface
      */
     public function delete($slug)
     {
-        return unset($this->storage[$slug])
+        unset($this->storage[$slug]);
     }
 
     /**
@@ -68,6 +68,17 @@ class ArrayStore implements StoreInterface
     }
     
     /**
+     * Fetch all modules
+     * 
+     * @return array
+     */
+    public function getAll()
+    {
+        return $this->storage;
+    }
+
+
+    /**
      * Fetch only modules that are enabled
      * 
      * @return array
@@ -79,7 +90,20 @@ class ArrayStore implements StoreInterface
             return $val['status'] === ProviderInterface::STATUS_INSTALLED;
         });
     }
-
+        
+    /**
+     * Fetch only modules that are disabled
+     * 
+     * @return array
+     */
+    public function getDisabled()
+    {
+        return array_filter($this->storage, function($val)
+        {
+            return $val['status'] === ProviderInterface::STATUS_DISABLED;
+        });
+    }
+    
     /**
      * Fetch only modules that are installed
      * 
@@ -89,7 +113,7 @@ class ArrayStore implements StoreInterface
     {
         return array_filter($this->storage, function($val)
         {
-            return $val['status'] ==! ProviderInterface::STATUS_DISABLED;
+            return $val['status'] == ProviderInterface::STATUS_INSTALLED or $val['status'] == StoreInterface::STATUS_UPGRADE;
         });
     }
 

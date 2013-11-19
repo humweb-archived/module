@@ -26,7 +26,7 @@ interface StoreInterface
      * @param  array $attributes
      * @return bool
      */
-    public function insert(array $attributes = []);
+    public function insert($slug, array $attributes = []);
 
     /**
      * Delete module record
@@ -49,7 +49,21 @@ interface StoreInterface
      * 
      * @return array
      */
-    public function getEnabled();
+    public function getEnabled();    
+    
+    /**
+     * Fetch all modules
+     * 
+     * @return array
+     */
+    public function getAll();
+    
+    /**
+     * Fetch only modules that are disabled
+     * 
+     * @return array
+     */
+    public function getDisabled();
 
     /**
      * Fetch only modules that are installed

@@ -2,6 +2,7 @@
 
 use Closure;
 
+
 /**
 * Module Container
 * 
@@ -32,12 +33,38 @@ class Container
 
         $this->app[$name] = $this->app->share($binding);
     }
+    
+    public function unbind($name)
+    {
+        $name = $this->prefixName($name);
 
+        unset($this->app[$name]);
+    }
+    
     public function bound($name)
     {
         $name = $this->prefixName($name);
 
         return $this->app->bound($name);
+    }
+
+    /**
+     * Dynamically handle calls to the html class.
+     *
+     * @param  string  $method
+     * @param  array   $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        $method = $this->app->$method;
+
+        if (is_callable($method))
+        {
+            return call_user_func_array($method, $parameters);
+        }
+
+        throw new \BadMethodCallException("Method {$method} does not exist.");
     }
 
     public function prefixName($name)

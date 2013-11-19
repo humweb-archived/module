@@ -6,8 +6,8 @@ use Ryun\Module\StoreInterface;
 class ModuleArrayStoreTest extends PHPUnit_Framework_TestCase {
 
 	public $dataset = [
-		'blogs' => [
-			'slug' => 'blogs',
+		'foo' => [
+			'slug' => 'bar',
 			'status' => StoreInterface::STATUS_DISABLED
 		],
 		'pages' => [
@@ -87,7 +87,7 @@ class ModuleArrayStoreTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('menus', $results['menus']['slug']);
 	}
 
-	public function testGetgetUpgradableItems()
+	public function testGetUpgradableItems()
 	{
 		$store = new ArrayStore($this->dataset);
 
@@ -96,6 +96,17 @@ class ModuleArrayStoreTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, count($results));
 
 		$this->assertEquals('blog', $results['blog']['slug']);
+	}
+
+	public function testGetDisabledItems()
+	{
+		$store = new ArrayStore($this->dataset);
+
+		$results = $store->getDisabled();
+
+		$this->assertEquals(1, count($results));
+
+		$this->assertEquals('bar', $results['foo']['slug']);
 	}
 
 }
