@@ -26,7 +26,8 @@ class ModuleServiceProvider extends ServiceProvider {
 
         $this->app->bindShared('modules.fileloader', function ($app)
         {
-        	return new FileLoader($app['files'], $app['config']['module::path']);
+        	$path = base_path().'/'.$app['config']['module::path'];
+        	return new FileLoader($app['files'], $path);
         });
         
         $this->app->bindShared('modules', function ($app)

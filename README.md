@@ -3,14 +3,12 @@
 
 Module
 ======
-The `module` package is a module/modular system.
-
+The `module` package is a module system.
 
 Main Usecase
 =====
-If your want your app to support third-party development with features like:
-* install, upgrade, and update notifications
-* Decoupled app specific modules
+Building an application that supports and encourages modular stucture with the ability to:
+Install, Enable, Disable, or Upgrade Application specific modules.
 
 
 Installation
