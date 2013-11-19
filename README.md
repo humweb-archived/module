@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/ryun/module.png)](https://travis-ci.org/ryun/module)
+
+
 Module
 ======
 The `module` package is a module/modular system.
