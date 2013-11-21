@@ -4,7 +4,6 @@ use Carbon\Carbon;
 
 /**
  * Module Repository class
- * 
  */
 class Repository
 {
