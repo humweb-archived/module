@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ryun/module.png)](https://travis-ci.org/ryun/module)
+[![Build Status](https://travis-ci.org/humweb/module.png)](https://travis-ci.org/humweb/module)
 
 
 Module
