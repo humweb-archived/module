@@ -3,7 +3,7 @@
 
 Module
 ======
-The `module` package is a module system.
+The `humweb\module` package is a module system.
 
 Main Usecase
 =====
