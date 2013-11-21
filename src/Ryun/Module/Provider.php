@@ -73,9 +73,9 @@ class Provider implements ProviderInterface
      * @param Fileloader $loader
      * @param Illuminate\Config\Repository $config
      */
-    public function __construct($app = null, Container $container, Manager $manager, Fileloader $loader, $config)
+    public function __construct($app = null, Container $container, Manager $manager, FileloaderInterface $loader, $config)
     {
-        $this->app       = $app ?: new Illuminate\Container\Container;
+        $this->app       = $app ?: new \Illuminate\Foundation\Application;
         $this->container = $container;
         $this->manager   = $manager;
         $this->loader    = $loader;
@@ -115,6 +115,7 @@ class Provider implements ProviderInterface
         // Maybe? collect module dirs
         if ( ! ($modules = $this->loader->getFolders()))
         {
+
             // If we are not running in console, and we can't find any folders,
             // stop the show right here!
             if ( ! $this->app->runningInConsole())

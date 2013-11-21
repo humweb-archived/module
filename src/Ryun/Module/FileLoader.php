@@ -2,7 +2,7 @@
 
 use Illuminate\Filesystem\Filesystem;
 
-class FileLoader {
+class FileLoader implements FileLoaderInterface {
 
 	/**
 	 * The filesystem instance.
@@ -126,7 +126,7 @@ class FileLoader {
 	 * @param  string  $path
 	 * @return mixed
 	 */
-	protected function getRequire($path)
+	public function getRequire($path)
 	{
 		return $this->files->getRequire($path);
 	}

@@ -48,24 +48,24 @@ class Container
         return $this->app->bound($name);
     }
 
-    /**
-     * Dynamically handle calls to the html class.
-     *
-     * @param  string  $method
-     * @param  array   $parameters
-     * @return mixed
-     */
-    public function __call($method, $parameters)
-    {
-        $method = $this->app->$method;
+    // /**
+    //  * Dynamically handle calls to the html class.
+    //  *
+    //  * @param  string  $method
+    //  * @param  array   $parameters
+    //  * @return mixed
+    //  */
+    // public function __call($method, $parameters)
+    // {
+    //     $method = $this->app->$method;
 
-        if (is_callable($method))
-        {
-            return call_user_func_array($method, $parameters);
-        }
+    //     if (is_callable($method))
+    //     {
+    //         return call_user_func_array($method, $parameters);
+    //     }
 
-        throw new \BadMethodCallException("Method {$method} does not exist.");
-    }
+    //     throw new \BadMethodCallException("Method {$method} does not exist.");
+    // }
 
     public function prefixName($name)
     {
