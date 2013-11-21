@@ -1,7 +1,7 @@
 <?php
 
-use Ryun\Module\ArrayStore;
-use Ryun\Module\StoreInterface;
+use Humweb\Module\ArrayStore;
+use Humweb\Module\StoreInterface;
 
 class ModuleArrayStoreTest extends PHPUnit_Framework_TestCase {
 

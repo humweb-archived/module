@@ -1,4 +1,4 @@
-<?php namespace Ryun\Module;
+<?php namespace Humweb\Module;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -76,7 +76,7 @@ class ModuleServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('ryun/module');
+		$this->package('humweb/module');
 		$this->app['modules']->boot();
 	}
 	/**

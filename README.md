@@ -19,7 +19,7 @@ Open your composer.json file and add the following line:
 ```
 {
     "require": {
-        "ryun/module": "dev-master"
+        "humweb/module": "dev-master"
     },
 }
 ```
@@ -32,7 +32,7 @@ composer update
 #### Step 2
 Add the following to the list of service providres in app/config/app.php.
 ```
-'Ryun\Module\ModuleServiceProvider',
+'Humweb\Module\ModuleServiceProvider',
 ```
 
 #### Step 3

@@ -1,4 +1,4 @@
-<?php namespace Ryun\Module;
+<?php namespace Humweb\Module;
  
 use Carbon\Carbon;
 
@@ -14,9 +14,9 @@ class Repository
     /**
      * Create a new repository instance
      * 
-     * @param Ryun\Module\Provider $provider
-     * @param Ryun\Module\LoaderInterface $fileloader
-     * @param Ryun\Module\StoreInterface $model
+     * @param Humweb\Module\Provider $provider
+     * @param Humweb\Module\LoaderInterface $fileloader
+     * @param Humweb\Module\StoreInterface $model
      */
     public function __construct(ProviderInterface $provider = null, LoaderInterface $fileloader = null, StoreInterface $model = null)
     {

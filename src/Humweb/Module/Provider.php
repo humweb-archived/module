@@ -1,4 +1,4 @@
-<?php namespace Ryun\Module;
+<?php namespace Humweb\Module;
 
 /**
  * Module Provider class
@@ -32,21 +32,21 @@ class Provider implements ProviderInterface
     /**
      * Module container
      * 
-     * @var Ryun\Module\Container
+     * @var Humweb\Module\Container
      */
     protected $container;
 
     /**
      * Manager
      * 
-     * @var Ryun\Module\Manager
+     * @var Humweb\Module\Manager
      */
     protected $manager;
 
     /**
      * Fileloader
      * 
-     * @var Ryun\Module\Fileloader
+     * @var Humweb\Module\Fileloader
      */
     protected $loader;
 

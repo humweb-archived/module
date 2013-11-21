@@ -1,4 +1,4 @@
-<?php namespace Ryun\Module\Console;
+<?php namespace Humweb\Module\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
@@ -21,7 +21,7 @@ class SetupCommand extends Command {
 	 */
 	protected $description = 'Initial migration and folder setup for the module package.';
 
-	protected $package = 'ryun/module';
+	protected $package = 'humweb/module';
 	protected $configPath;
 
 	/**
@@ -72,7 +72,7 @@ class SetupCommand extends Command {
 	protected function runMigration($path = null)
 	{
 		$connection = $this->laravel['config']['module::db.connection'];
-		$this->call('migrate', array('--package' => 'ryun/module', '--database' => $connection));
+		$this->call('migrate', array('--package' => 'humweb/module', '--database' => $connection));
 	}
 
 	protected function createBaseFolder($path = null)

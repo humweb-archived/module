@@ -1,4 +1,4 @@
-<?php namespace Ryun\Module;
+<?php namespace Humweb\Module;
 
 interface ProviderInterface
 {

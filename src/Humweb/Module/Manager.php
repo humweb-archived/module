@@ -1,4 +1,4 @@
-<?php namespace Ryun\Module;
+<?php namespace Humweb\Module;
 
 use Illuminate\Support\Manager as AbstractManager;
 
@@ -8,7 +8,7 @@ class Manager extends AbstractManager {
 	/**
 	 * Create an instance of the array driver.
 	 *
-	 * @return \Ryun\Module\ArrayStore
+	 * @return \Humweb\Module\ArrayStore
 	 */
 	protected function createArrayDriver()
 	{
@@ -18,7 +18,7 @@ class Manager extends AbstractManager {
 	/**
 	 * Create an instance of the file driver.
 	 *
-	 * @return \Ryun\Module\FileStore
+	 * @return \Humweb\Module\FileStore
 	 */
 	protected function createFileDriver()
 	{
@@ -30,7 +30,7 @@ class Manager extends AbstractManager {
 	/**
 	 * Create an instance of the database driver.
 	 *
-	 * @return \Ryun\Module\DatabaseStore
+	 * @return \Humweb\Module\DatabaseStore
 	 */
 	protected function createDatabaseDriver()
 	{
@@ -47,8 +47,8 @@ class Manager extends AbstractManager {
 	/**
 	 * Create a new module repository with the given implementation.
 	 *
-	 * @param  \Ryun\Module\StoreInterface  $store
-	 * @return \Ryun\Module\Repository
+	 * @param  \Humweb\Module\StoreInterface  $store
+	 * @return \Humweb\Module\Repository
 	 */
 	protected function repository(StoreInterface $store)
 	{

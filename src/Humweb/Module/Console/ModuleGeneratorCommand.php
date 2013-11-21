@@ -1,7 +1,7 @@
-<?php namespace Ryun\Module\Console;
+<?php namespace Humweb\Module\Console;
 
 use Illuminate\Console\Command;
-use Ryun\Module\ModuleCreator;
+use Humweb\Module\ModuleCreator;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 

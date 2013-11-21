@@ -1,13 +1,13 @@
 {
-    "name": "ryun/module",
+    "name": "humweb/module",
     "description": "Module system for laravel framework",
     "keywords": ["module", "laravel"],
     "license": "MIT",
     "homepage": "https://github.com/humweb/module",
     "authors": [
         {
-            "name": "ryun shofner",
-            "email": "ryun@humboldtweb.com"
+            "name": "humweb shofner",
+            "email": "humweb@humboldtweb.com"
         }
     ],
     "require": {
@@ -23,7 +23,7 @@
             "src/migrations"
         ],
         "psr-0": {
-            "Ryun\\Module\\": "src/",
+            "Humweb\\Module\\": "src/",
             "Teststubs": "tests/"
         }
     },

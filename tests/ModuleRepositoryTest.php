@@ -1,8 +1,8 @@
 <?php
 
 use Mockery as m;
-use Ryun\Module\ArrayStore;
-use Ryun\Module\Repository;
+use Humweb\Module\ArrayStore;
+use Humweb\Module\Repository;
 
 class ModuleRepositoryTest extends PHPUnit_Framework_TestCase {
 
@@ -32,7 +32,7 @@ class ModuleRepositoryTest extends PHPUnit_Framework_TestCase {
 
 	protected function getRepository()
 	{
-		return new Repository(m::mock('Ryun\Module\ProviderInterface'),m::mock('Ryun\Module\LoaderInterface'),m::mock('Ryun\Module\StoreInterface'));
+		return new Repository(m::mock('Humweb\Module\ProviderInterface'),m::mock('Humweb\Module\LoaderInterface'),m::mock('Humweb\Module\StoreInterface'));
 	}
 
 }

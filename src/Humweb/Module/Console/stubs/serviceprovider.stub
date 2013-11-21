@@ -1,6 +1,6 @@
 <?php namespace {{namespace}}\{{name}};
 
-use Ryun\Module\AbstractModule;
+use Humweb\Module\AbstractModule;
 
 class Module extends AbstractModule {
 	public $name        = '{{name}}';

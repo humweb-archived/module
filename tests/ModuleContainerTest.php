@@ -1,6 +1,6 @@
 <?php
 
-use Ryun\Module\Container;
+use Humweb\Module\Container;
 use Illuminate\Container\Container as AppContainer;
 class ModuleContainerContainerTest extends PHPUnit_Framework_TestCase {
 
