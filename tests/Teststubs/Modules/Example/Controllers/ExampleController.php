@@ -1,12 +1,12 @@
-<?php namespace App\Modules\Example\Controllers;
+<?php namespace Teststubs\Modules\Example\Controllers;
 
 
-use BaseController, View;
-class ExampleController extends BaseController {
+use Illuminate\Routing\Controller, View;
+class ExampleController extends Controller {
 
 	public function getIndex()
 	{
-		return View::make('example::index');
+		//return View::make('example::index');
 	}
 
 }

@@ -3,7 +3,12 @@
 use Humweb\Module\ArrayStore;
 use Humweb\Module\StoreInterface;
 
-class ModuleArrayStoreTest extends PHPUnit_Framework_TestCase {
+class ModuleArrayStoreTest extends Orchestra\Testbench\TestCase {
+
+    // protected function getPackageProviders()
+    // {
+    //     return array('Humweb\Module\ModuleServiceProvider');
+    // }
 
 	public $dataset = [
 		'foo' => [

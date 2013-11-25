@@ -9,7 +9,7 @@ class Module extends AbstractModule {
 	public $author      = 'Humweb Shofner';
 	public $website     = 'humboldtweb.com';
 	public $license     = 'BSD-3-Clause';
-	public $autoload    = ["routes.php"];
+	//public $autoload    = ["routes.php"];
 	
 	/**
 	 * Use this method to register classes with the IoC container

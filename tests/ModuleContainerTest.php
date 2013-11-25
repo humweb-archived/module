@@ -2,7 +2,13 @@
 
 use Humweb\Module\Container;
 use Illuminate\Container\Container as AppContainer;
-class ModuleContainerContainerTest extends PHPUnit_Framework_TestCase {
+
+class ModuleContainerContainerTest extends Orchestra\Testbench\TestCase {
+
+    // protected function getPackageProviders()
+    // {
+    //     return array('Humweb\Module\ModuleServiceProvider');
+    // }
 
 	public function testClosureResolution()
 	{
