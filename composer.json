@@ -15,7 +15,6 @@
         "laravel/framework": "4.1.*"
     },
     "require-dev": {
-        "orchestra/testbench": "dev-master",
         "mockery/mockery": "0.8.0",
         "phpunit/php-code-coverage": "1.2.*@dev"
     },
