@@ -3,7 +3,7 @@
 use Humweb\Module\Container;
 use Illuminate\Container\Container as AppContainer;
 
-class ModuleContainerContainerTest extends Orchestra\Testbench\TestCase {
+class ModuleContainerContainerTest extends PHPUnit_Framework_TestCase {
 
     // protected function getPackageProviders()
     // {

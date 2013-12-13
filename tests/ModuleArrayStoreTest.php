@@ -3,7 +3,7 @@
 use Humweb\Module\ArrayStore;
 use Humweb\Module\StoreInterface;
 
-class ModuleArrayStoreTest extends Orchestra\Testbench\TestCase {
+class ModuleArrayStoreTest extends PHPUnit_Framework_TestCase {
 
     // protected function getPackageProviders()
     // {

@@ -238,8 +238,30 @@ class Provider implements ProviderInterface
     {
             $name = strtolower($name);
             $path =  $this->loader->getPath($name);
+            
+            $viewPaths[] = [];
 
-            $this->app['view']->addNamespace($name, $path.'/Views');
+            // App views
+            $appOverridePath = app_path('views/modules/'.$name);
+            if ($this->app['files']->isDirectory($appOverridePath))
+            {
+                $viewPaths[] = $appOverridePath;
+            }
+            
+            // Theme views
+            $themeName = '';
+
+            $themeOverridePath = public_path('views/modules/'.$name);
+            if ($this->app['files']->isDirectory($themeOverridePath))
+            {
+                $viewPaths[] = $themeOverridePath;
+            }
+            
+            // Module views
+            $viewPaths[] = [$path.'/Views'];
+
+            // Add namespaces
+            $this->app['view']->addNamespace($name, $viewPaths);
             $this->app['config']->addNamespace($name, $path.'/Config');
             $this->app['translator']->addNamespace($name, $path.'/Lang');
     }
