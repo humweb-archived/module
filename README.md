@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/humweb/module.png)](https://travis-ci.org/humweb/module) [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/humweb/module/badges/quality-score.png?s=5d1608114c078077df52920aecc3f0ffabc8864b)](https://scrutinizer-ci.com/g/humweb/module/) 
+[![Build Status](https://travis-ci.org/humweb/module.png)](https://travis-ci.org/humweb/module) [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/humweb/module/badges/quality-score.png?s=5d1608114c078077df52920aecc3f0ffabc8864b)](https://scrutinizer-ci.com/g/humweb/module/) [![Code Coverage](https://scrutinizer-ci.com/g/humweb/module/badges/coverage.png?s=336144062074b162cde7306e8b0106a6a9a85de5)](https://scrutinizer-ci.com/g/humweb/module/)
 
 
 Module
