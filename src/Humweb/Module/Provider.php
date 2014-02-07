@@ -100,6 +100,11 @@ class Provider implements ProviderInterface
         return $this->container;
     }
 
+    public function getProviders()
+    {
+        return $this->container->all();
+    }
+
     public function getLoader()
     {
         return $this->loader;
@@ -112,8 +117,10 @@ class Provider implements ProviderInterface
      */
     public function boot()
     {
+
+        $modules = $this->loader->getFolders();
         // Maybe? collect module dirs
-        if ( ! ($modules = $this->loader->getFolders()))
+        if ($modules === false)
         {
 
             // If we are not running in console, and we can't find any folders,
@@ -238,8 +245,6 @@ class Provider implements ProviderInterface
     {
             $name = strtolower($name);
             $path =  $this->loader->getPath($name);
-            
-            $viewPaths[] = [];
 
             // App views
             $appOverridePath = app_path('views/modules/'.$name);
@@ -258,7 +263,8 @@ class Provider implements ProviderInterface
             }
             
             // Module views
-            $viewPaths[] = [$path.'/Views'];
+            $viewPaths[] = $path.'/Views';
+            $viewPaths[] = $path.'/views';
 
             // Add namespaces
             $this->app['view']->addNamespace($name, $viewPaths);

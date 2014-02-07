@@ -13,6 +13,8 @@ use Closure;
 class Container
 {
     protected $app;
+    protected $providers = [];
+    protected $items = [];
 
     public function __construct($app)
     {
@@ -27,17 +29,29 @@ class Container
         return $this->app->bound($name) ? $this->app[$name] : null;
     }
 
+    public function all()
+    {
+        if (empty($this->providers))
+        {
+            foreach ($this->items as $key => $value)
+            {
+                $this->providers[$key] = $this->instance($key);
+            }
+        }
+        return $this->providers;
+    }
+
     public function bind($name, Closure $binding)
     {
+        $this->items[$name] = true;
         $name = $this->prefixName($name);
-
         $this->app[$name] = $this->app->share($binding);
     }
     
     public function unbind($name)
     {
+        unset($this->items[$name]);
         $name = $this->prefixName($name);
-
         unset($this->app[$name]);
     }
     
