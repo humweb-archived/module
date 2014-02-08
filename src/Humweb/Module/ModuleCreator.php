@@ -82,7 +82,7 @@ class ModuleCreator {
 	public function writeRoutesFile($meta, $directory)
 	{
 		$file = $directory.'/routes.php';
-		$stub = $this->files->get(__DIR__.'/stubs/routes.stub');
+		$stub = $this->files->get(__DIR__.'/Console/stubs/routes.stub');
 		$this->files->put($file, $stub);
 	}
 
@@ -96,7 +96,7 @@ class ModuleCreator {
 	public function writeConfigFile($meta, $directory)
 	{
 		$file = $directory.'/Config/config.php';
-		$stub = $this->files->get(__DIR__.'/stubs/config.stub');
+		$stub = $this->files->get(__DIR__.'/Console/stubs/config.stub');
 		$this->files->put($file, $stub);
 	}
 
@@ -109,7 +109,7 @@ class ModuleCreator {
 	 */
 	public function writeServiceProvider($meta, $directory)
 	{
-		$file = $this->files->get(__DIR__.'/stubs/serviceprovider.stub');
+		$file = $this->files->get(__DIR__.'/Console/stubs/serviceprovider.stub');
 		$stub = $this->formatPackageStub($meta, $file);
 		$provider = $directory.'/Module.php';
 		$this->files->put($provider, $stub);
