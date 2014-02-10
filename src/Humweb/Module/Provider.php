@@ -165,7 +165,7 @@ class Provider implements ProviderInterface
 
             if ( ! class_exists($className))
             {
-                throw new \Exception("Error Module Class Not Found", 1);
+                throw new \Exception("Unable to locate module class: ".$className, 1);
             }
 
             //Fire event before we bind module
