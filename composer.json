@@ -16,7 +16,7 @@
     },
     "require-dev": {
         "mockery/mockery": "0.8.0",
-        "phpunit/php-code-coverage": "2.1.*"
+        "phpunit/php-code-coverage": "2.1.*@dev"
     },
     "autoload": {
         "classmap": [
