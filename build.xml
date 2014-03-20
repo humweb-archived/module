@@ -36,6 +36,10 @@
       <!--arg value="- -optimize-autoloader" /
             ## we don't usually optimise deployment -->
     </exec>
+    <exec executable="php" failonerror="true">
+      <arg value="composer.phar" />
+      <arg value="update" />
+    </exec>
   </target>
   
  <target name="clean" description="Cleanup build artifacts">
