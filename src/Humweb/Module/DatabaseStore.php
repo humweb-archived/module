@@ -16,7 +16,7 @@ class DatabaseStore implements StoreInterface {
 	 *
 	 * @var string
 	 */
-	protected $table;
+	protected $table = 'modules';
 
 	/**
 	 * Create a new database store.
@@ -30,12 +30,7 @@ class DatabaseStore implements StoreInterface {
 		$this->table = $table;
 		$this->connection = $connection;
 	}
-	    /**
-     * Define the table name
-     *
-     * @var string
-     */
-    protected $table = 'modules';
+
 	
     public function find($slug)
     {
