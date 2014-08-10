@@ -24,11 +24,13 @@ class SetupCommand extends Command {
 	protected $package = 'humweb/module';
 	protected $configPath;
 
-	/**
-	 * Create a new command instance.
-	 *
-	 * @return void
-	 */
+    /**
+     * Create a new command instance.
+     *
+     * @param Filesystem $files
+     *
+     * @return \Humweb\Module\Console\SetupCommand
+     */
 	public function __construct(Filesystem $files)
 	{
 		parent::__construct();
@@ -58,9 +60,9 @@ class SetupCommand extends Command {
 
 		//Publish
 		$this->call('config:publish', array('package' => $this->package));
-
-		$this->laravel['config']['module::path'] = $path;
-		$this->laravel['config']['module::namespace'] = $namespace;
+        $this->runMigration();
+		$this->laravel['config']['modules::path'] = $path;
+		$this->laravel['config']['modules::namespace'] = $namespace;
 
 		$this->info('Modules path set to: '.$path);
 		$this->info('Modules namespace set to: '.$namespace);
@@ -69,9 +71,9 @@ class SetupCommand extends Command {
 
 	}
 
-	protected function runMigration($path = null)
+	protected function runMigration()
 	{
-		$connection = $this->laravel['config']['module::db.connection'];
+		$connection = $this->laravel['config']['modules::db.connection'];
 		$this->call('migrate', array('--package' => 'humweb/module', '--database' => $connection));
 	}
 
@@ -83,7 +85,7 @@ class SetupCommand extends Command {
 
 			return $path;
 		}
-		die("\n\nChoose another name, a folder with that name exists!\n\n");
+		//die("\n\nChoose another name, a folder with that name exists!\n\n");
 	}
 
 	protected function setConfigValues($path = null, $namespace = null)
@@ -94,8 +96,8 @@ class SetupCommand extends Command {
 		$contents = $this->files->get($baseConfigFile);
 
 		//Grab config values
-		$defaultPath = $this->laravel['config']['module::path'];
-		$defaultNamespace = $this->laravel['config']['module::namespace'];
+		$defaultPath = $this->laravel['config']['modules::path'];
+		$defaultNamespace = $this->laravel['config']['modules::namespace'];
 
 		//Ask config values
 		$path = $path ?: $this->ask('Base path for modules: '.base_path().'/', $defaultPath);

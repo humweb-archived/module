@@ -18,13 +18,14 @@ class DatabaseStore implements StoreInterface {
 	 */
 	protected $table = 'modules';
 
-	/**
-	 * Create a new database store.
-	 *
-	 * @param  \Illuminate\Database\Connection  $connection
-	 * @param  string  $table
-	 * @return void
-	 */
+    /**
+     * Create a new database store.
+     *
+     * @param  \Illuminate\Database\Connection $connection
+     * @param  string                          $table
+     *
+     * @return \Humweb\Module\DatabaseStore
+     */
 	public function __construct(Connection $connection, $table)
 	{
 		$this->table = $table;
@@ -39,7 +40,7 @@ class DatabaseStore implements StoreInterface {
     
     public function getAll()
     {
-      return $this->table()->all();
+      return $this->table()->get();
     }
     
     public function getEnabled()
@@ -62,12 +63,12 @@ class DatabaseStore implements StoreInterface {
         return $this->getBy('status', ProviderInterface::STATUS_UPGRADE);
     }
 
-    public function insert($slug, $attributes = [])
+    public function insert($slug, array $attributes = [])
     {
         return $this->table()->insertGetId($attributes);
     }
 
-    public function update($slug, $attributes = [])
+    public function update($slug, array $attributes = [])
     {
         return $this->table()->where('slug', $slug)->update($attributes);
     }
@@ -79,7 +80,7 @@ class DatabaseStore implements StoreInterface {
 
     protected function getBy($field, $value, $op = '=')
     {
-        return $this->table()->where($field, $op, $value)->get()->toArray();
+        return $this->table()->where($field, $op, $value)->get();
     }
 
 	/**

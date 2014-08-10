@@ -17,7 +17,7 @@ class Repository
      * @param Humweb\Module\LoaderInterface $fileloader
      * @param Humweb\Module\StoreInterface $model
      */
-    public function __construct(ProviderInterface $provider = null, LoaderInterface $fileloader = null, StoreInterface $model = null)
+    public function __construct(ProviderInterface $provider = null, FileLoaderInterface $fileloader = null, StoreInterface $model = null)
     {
         $this->fileloader = $fileloader;
         $this->provider = $provider;
@@ -52,8 +52,18 @@ class Repository
     }
  
     /**
-     * Fetch only modules that are installed
+     * Fetch all available modules
      * 
+     * @return array
+     */
+    public function getAll()
+    {
+        return $this->model->getAll();
+    }
+
+    /**
+     * Fetch only modules that are installed
+     *
      * @return array
      */
     public function getInstalled()
@@ -108,12 +118,14 @@ class Repository
     {
         return $this->setStatus($slug, ProviderInterface::STATUS_INSTALLED);
     }
-    
+
     /**
      * Helper method to update the status
-     * 
+     *
      * @param string $slug
-     * @param int $status
+     * @param int    $status
+     *
+     * @return bool
      */
     protected function setStatus($slug, $status)
     {
@@ -133,7 +145,7 @@ class Repository
         $is_core = true;
 
         //$known = static::get();
-        $modulesInstalled = $this->model->fetchInstalled();
+        $modulesInstalled = $this->model->getInstalled();
 
         $installedKeys = array();
         $installedObjects = array();
@@ -189,9 +201,10 @@ class Repository
                         'version'     => $meta->version,
                         'description' => $meta->description,
                         'status'      => ProviderInterface::STATUS_DISABLED,
-                        'updated_on'  => Carbon::now()->format('Y-m-d'),
+                        'updated_on'  => Carbon::now(),
                     ];
-                    $this->model->create($return[$slug]);
+
+                    $this->model->insert($slug, $return[$slug]);
                 }
             }
         }

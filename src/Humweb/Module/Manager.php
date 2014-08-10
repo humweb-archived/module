@@ -4,7 +4,6 @@ use Illuminate\Support\Manager as AbstractManager;
 
 class Manager extends AbstractManager {
 
-	
 	/**
 	 * Create an instance of the array driver.
 	 *
@@ -22,7 +21,7 @@ class Manager extends AbstractManager {
 	 */
 	protected function createFileDriver()
 	{
-		$path = $this->app['config']['module::storage_path'];
+		$path = $this->app['config']['modules::storage_path'];
 
 		return $this->repository(new FileStore($this->app['files'], $path));
 	}
@@ -34,11 +33,11 @@ class Manager extends AbstractManager {
 	 */
 	protected function createDatabaseDriver()
 	{
-		$connection = $this->app['config']['module::db.connection'];
+		$connection = $this->app['config']['modules::db.connection'];
 
 		$connection = $this->app['db']->connection($connection);
 
-		$table = $this->app['config']['module::db.table'];
+		$table = $this->app['config']['modules::db.table'];
 
 		return $this->repository(new DatabaseStore($connection, $table));
 	}
@@ -52,7 +51,7 @@ class Manager extends AbstractManager {
 	 */
 	protected function repository(StoreInterface $store)
 	{
-		return new Repository($this->app['module'], $this->app['modules.fileloader'], $store);
+		return new Repository($this->app['modules'], $this->app['modules.fileloader'], $store);
 	}
 
 	/**
@@ -60,7 +59,7 @@ class Manager extends AbstractManager {
 	 *
 	 * @return string
 	 */
-	protected function getDefaultDriver()
+	public function getDefaultDriver()
 	{
 		return $this->app['config']['modules::driver'];
 	}

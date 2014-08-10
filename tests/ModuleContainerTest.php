@@ -32,7 +32,7 @@ class ModuleContainerContainerTest extends PHPUnit_Framework_TestCase {
 	private function getContainer()
 	{
 		$app = new AppContainer;
-		$app['config'] = function() { return ['module::container_prefix' => 'test']; };
+		$app['config'] = function() { return ['modules::container_prefix' => 'test']; };
 		return new Container($app);
 	}
 }

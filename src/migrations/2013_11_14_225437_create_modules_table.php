@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+    use Illuminate\Database\Migrations\Migration;
+    use Illuminate\Database\Schema\Blueprint;
 
-class CreateModulesTable extends Migration {
+    class CreateModulesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -23,8 +24,8 @@ class CreateModulesTable extends Migration {
 		    // STATUS_INSTALL   = 0;
 		    // STATUS_INSTALLED = 1;
 		    // STATUS_UPGRADE   = 2;
-			$table->boolean('status'); //-1 disable, 1 enabled
-			$table->integer('updated_on')->nullable();
+			$table->tinyInteger('status')->default(-1); //-1 disable, 1 enabled
+			$table->datetime('updated_on')->nullable();
 			$table->unique('slug');
 			$table->index('status');
 		});

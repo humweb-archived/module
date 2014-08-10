@@ -13,7 +13,6 @@ class ModuleServiceProvider extends ServiceProvider {
 
     public function register()
     {
-
         $this->app->bindShared('modules.container', function ($app)
         {
         	return new Container($app);
@@ -24,9 +23,9 @@ class ModuleServiceProvider extends ServiceProvider {
 			return new Manager($app);
 		});
 
-        $this->app->bindShared('modules.fileloader', function ($app)
+        $this->app->bindShared('modules.fileloader', function($app)
         {
-        	$path = base_path().'/'.$app['config']['module::path'];
+        	$path = base_path().'/'.$app['config']['modules::path'];
         	return new FileLoader($app['files'], $path);
         });
         
@@ -76,7 +75,7 @@ class ModuleServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('humweb/module');
+        $this->package('humweb/modules', 'modules');
 		$this->app['modules']->boot();
 	}
 	/**

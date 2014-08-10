@@ -81,8 +81,8 @@ class Provider implements ProviderInterface
         $this->loader    = $loader;
         $this->config    = $config;
 
-        $this->path      = $this->config['module::path'];
-        $this->namespace = $this->config['module::namespace'];
+        $this->path      = $this->config['modules::path'];
+        $this->namespace = $this->config['modules::namespace'];
     }
 
     public function getPath()
@@ -110,15 +110,27 @@ class Provider implements ProviderInterface
         return $this->loader;
     }
 
+    public function getManager()
+    {
+        return $this->manager;
+    }
+
     /**
      * Load all required files from the modules at boot
      *
+     * @throws \Exception
      * @return bool|void
      */
     public function boot()
     {
+        $loader = $this->loader;
 
-        $modules = $this->loader->getFolders();
+        $modules = $this->app['cache']->rememberForever('module.folders', function() use ($loader)
+        {
+            return $loader->getFolders();
+        });
+
+
         // Maybe? collect module dirs
         if ($modules === false)
         {
@@ -149,9 +161,11 @@ class Provider implements ProviderInterface
 
     /**
      * This uses our abstract container
-     * 
+     *
      * @param  string $module
      * @param  string $class
+     *
+     * @throws \Exception
      * @return AbstractModule
      */
     public function instance($module, $class = 'Module')
@@ -160,6 +174,7 @@ class Provider implements ProviderInterface
         //This is to make sure we dont instantiate a module twice.
         if ( ! $this->container->bound($module))
         {
+
             //Build fully namespaced class name
             $className = $this->namespace.'\\'.ucfirst($module).'\\'.$class;
 

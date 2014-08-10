@@ -1,9 +1,9 @@
 <?php
 return array(
-	'container_prefix' => 'module.',
+	'container_prefix' => 'modules.',
 
 	//Modules namespace
-	'namespace' => 'App/Modules',
+	'namespace' => 'App\Modules',
 
 	//Modules path
 	'path' => 'app/Modules',

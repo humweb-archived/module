@@ -83,6 +83,6 @@ class Container
 
     public function prefixName($name)
     {
-        return $this->app['config']['module::container_prefix'].$name;
+        return $this->app['config']['modules::container_prefix'].$name;
     }
 }

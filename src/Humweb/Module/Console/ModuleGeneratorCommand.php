@@ -51,8 +51,8 @@ class ModuleGeneratorCommand extends Command {
 			'name'   => $name,
 			'author' => $config['name'],
 			'email'  => $config['email'],
-			'basepath' => $this->laravel['config']['module::path'],
-			'namespace' => $this->laravel['config']['module::namespace']
+			'basepath' => $this->laravel['config']['modules::path'],
+			'namespace' => $this->laravel['config']['modules::namespace']
 			];
 
 		$workbench = $this->runCreator($meta);
