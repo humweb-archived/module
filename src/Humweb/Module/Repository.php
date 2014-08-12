@@ -136,7 +136,6 @@ class Repository
     // Import new modules to data store
     //-------------------------------------------------------------
 
-    //@todo should this go in the provider
     public function importUnknown()
     {
         $modules = array();
@@ -145,18 +144,27 @@ class Repository
         $is_core = true;
 
         //$known = static::get();
-        $modulesInstalled = $this->model->getInstalled();
-
-        $installedKeys = array();
-        $installedObjects = array();
+        $knownModules = $this->model->getAll();
+        $knownKeys = [];
+        $installedKeys = [];
+        $installable = [];
 
         // Format array to be more friendly
-        if (count($modulesInstalled) > 0)
+        if (count($knownModules) > 0)
         {
-            foreach ($modulesInstalled as $module)
+            foreach ($knownModules as $module)
             {
-                $installedKeys[] = $module->slug;
-                $installedObjects[$module->slug] = $item;
+                $modules[$module->slug] = $module;
+                $knownKeys[] = $module->slug;
+
+                if ( $module->status == ProviderInterface::STATUS_INSTALLED)
+                {
+                    $installedKeys[] = $module->slug;
+                }
+                else {
+                    $installable[$module->slug] = $module;
+                }
+
             }
         }
 
@@ -169,24 +177,36 @@ class Repository
 
             // These modules are known
             // So we check for upgrades
-            if (in_array($slug, $installedKeys) and $meta = $this->provider->instance($slug))
+            if (in_array($slug, $knownKeys) and $meta)
             {
 
                 $return[$slug] = [
-                    'name'        => $meta->name,
-                    'slug'        => $slug,
-                    'description' => $meta->description,
-                    'status'      => $installedObjects[$slug]->status,
+//                    'name'        => $meta->name,
+//                    'slug'        => $slug,
+//                    'description' => $meta->description,
+//                    'status'      => $installedObjects[$slug]->status,
                 ];
 
-                //Compare versions and update if needed
-                if (version_compare($meta->version, $installedObjects[$slug]->version) == 1)
-                {
-                    // @todo Update db
+                $hasNewerVersion = version_compare($modules[$slug]->version, $meta->version, '<');
 
+                if ($modules[$slug]->status == ProviderInterface::STATUS_INSTALL)
+                {
+
+                    $installable[$modules[$slug]->slug] = $modules[$slug];
+
+                    if ($hasNewerVersion)
+                    {
+                        $this->model->update($slug, ['version' =>  $meta->version]);
+                    }
+
+                }
+
+                //Compare versions and update if needed
+                elseif ($hasNewerVersion and $modules[$slug]->status != ProviderInterface::STATUS_DISABLED)
+                {
                     $return[$slug]['status'] = ProviderInterface::STATUS_UPGRADE;
                     $this->model->update($slug, $return[$slug]);
-                    Log::info(sprintf('The information of the module "%s" has been updated', $slug));
+                    \Log::info(sprintf('The information of the module "%s" has been updated', $slug));
                 }
             }
 
@@ -203,13 +223,12 @@ class Repository
                         'status'      => ProviderInterface::STATUS_DISABLED,
                         'updated_on'  => Carbon::now(),
                     ];
-
-                    $this->model->insert($slug, $return[$slug]);
+                    $installable[$slug] = $this->model->insert($slug, $return[$slug]);
                 }
             }
         }
 
-        return $return;
+        return $installable;
     }
 
     /**

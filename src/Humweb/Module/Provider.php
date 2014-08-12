@@ -129,7 +129,7 @@ class Provider implements ProviderInterface
         {
             return $loader->getFolders();
         });
-
+        $modules = $loader->getFolders();
 
         // Maybe? collect module dirs
         if ($modules === false)
