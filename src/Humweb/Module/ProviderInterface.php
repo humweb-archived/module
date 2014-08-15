@@ -12,7 +12,7 @@ interface ProviderInterface
     public function getContainer();
     public function getLoader();
     public function boot();
-    public function instance($module, $class = 'Module');
+    public function instance($module, $moduleSuffix = 'Module');
     public function validateModule($module);
     public function bootModule($module);
     public function addNamespace($name);
