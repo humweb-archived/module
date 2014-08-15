@@ -29,42 +29,57 @@ abstract class AbstractModule
 
     /**
      * Module website
+     *
      * @var string
      */
     public $website       = 'n/a';
 
     /**
      * Module license
+     *
      * @var string
      */
     public $license       = 'n/a';
 
     /**
      * Module description
+     *
      * @var string
      */
     public $description   = 'n/a';
 
     /**
      * Admin section to place the modules menu items under
+     *
      * @var string
      */
     public $adminCategory = 'Content';
 
     /**
      * Autoload files
+     *
      * @var array
      */
     public $autoload      = [];
 
+    /**
+     * Paths associated with the module
+     *
+     * @var array
+     */
+    public $paths         = [];
+
 
     /**
      * Create service provider instance
+     *
      * @param Illuminate\Foundation\Application $app
+     * @param array                             $paths
      */
-    public function __construct($app)
+    public function __construct($app, $paths = [])
     {
         $this->app = $app;
+        $this->paths = $paths;
     }
 
     /**
@@ -131,5 +146,14 @@ abstract class AbstractModule
         {
             $artisan->resolveCommands($commands);
         });
+    }
+
+    protected function onEvent($name, $handler, $priority = null)
+    {
+        return $this->app['events']->listen($name, $handler, $priority);
+    }
+    protected function fireEvent($name, $params = [])
+    {
+        return $this->app['events']->fire($name, $params);
     }
 }
