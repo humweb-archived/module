@@ -19,13 +19,14 @@ class FileLoader implements FileLoaderInterface {
 	protected $defaultPath;
 	protected $modulePaths = [];
 
-	/**
-	 * Create a new file configuration loader.
-	 *
-	 * @param  \Illuminate\Filesystem\Filesystem  $files
-	 * @param  string  $defaultPath
-	 * @return void
-	 */
+    /**
+     * Create a new file configuration loader.
+     *
+     * @param  \Illuminate\Filesystem\Filesystem $files
+     * @param  string                            $defaultPath
+     *
+     * @return \Humweb\Module\FileLoader
+     */
 	public function __construct(Filesystem $files, $defaultPath)
 	{
 		$this->files = $files;

@@ -12,15 +12,17 @@ class Repository
 
     /**
      * Create a new repository instance
-     * 
-     * @param Humweb\Module\Provider $provider
-     * @param Humweb\Module\LoaderInterface $fileloader
-     * @param Humweb\Module\StoreInterface $model
+     *
+     * @param Container           $container
+     * @param FileLoaderInterface $fileloader
+     * @param StoreInterface      $model
+     *
+     * @internal param Humweb\Module\Provider $provider
      */
-    public function __construct(ProviderInterface $provider = null, FileLoaderInterface $fileloader = null, StoreInterface $model = null)
+    public function __construct(Container $container = null, FileLoaderInterface $fileloader = null, StoreInterface $model = null)
     {
         $this->fileloader = $fileloader;
-        $this->provider = $provider;
+        $this->container = $container;
         $this->model = $model;
     }
 
@@ -94,7 +96,7 @@ class Repository
      */
     public function enable($slug)
     {
-        return $this->setStatus($slug, ProviderInterface::STATUS_INSTALLED);
+        return $this->setStatus($slug, ProviderInterface::STATUS_ENABLED);
     }
 
     /**
@@ -136,7 +138,7 @@ class Repository
     // Import new modules to data store
     //-------------------------------------------------------------
 
-    public function importUnknown()
+    public function importUnknown($namespace = '')
     {
         $modules = array();
         $return = array();
@@ -156,78 +158,74 @@ class Repository
             {
                 $modules[$module->slug] = $module;
                 $knownKeys[] = $module->slug;
-
-                if ( $module->status == ProviderInterface::STATUS_INSTALLED)
-                {
-                    $installedKeys[] = $module->slug;
-                }
-                else {
-                    $installable[$module->slug] = $module;
-                }
-
             }
         }
 
-        //Installed Modules
+        //Available Modules
         foreach ($this->fileloader->getFolders() as $path)
         {
             $slug = last(explode('/', str_replace('\\', '/', $path)));
 
-            $meta = $this->provider->instance($slug);
-
-            // These modules are known
-            // So we check for upgrades
-            if (in_array($slug, $knownKeys) and $meta)
+            if (isset($modules[$slug]) and $modules[$slug]->status == ProviderInterface::STATUS_DISABLED)
             {
-
-                $return[$slug] = [
-//                    'name'        => $meta->name,
-//                    'slug'        => $slug,
-//                    'description' => $meta->description,
-//                    'status'      => $installedObjects[$slug]->status,
-                ];
-
-                $hasNewerVersion = version_compare($modules[$slug]->version, $meta->version, '<');
-
-                if ($modules[$slug]->status == ProviderInterface::STATUS_INSTALL)
-                {
-
-                    $installable[$modules[$slug]->slug] = $modules[$slug];
-
-                    if ($hasNewerVersion)
-                    {
-                        $this->model->update($slug, ['version' =>  $meta->version]);
-                    }
-
-                }
-
-                //Compare versions and update if needed
-                elseif ($hasNewerVersion and $modules[$slug]->status != ProviderInterface::STATUS_DISABLED)
-                {
-                    $return[$slug]['status'] = ProviderInterface::STATUS_UPGRADE;
-                    $this->model->update($slug, $return[$slug]);
-                    \Log::info(sprintf('The information of the module "%s" has been updated', $slug));
-                }
+                continue;
             }
 
-            //Add new module to db
-            else {
-                
-                if ( $meta = $this->provider->instance($slug))
+            if ($meta = $this->container->bindByModuleName($slug))
+            {
+
+                // These modules are known
+                // So we check for upgrades
+                if (in_array($slug, $knownKeys))
                 {
-                    $return[$slug] = [
+
+
+                    $hasNewerVersion = version_compare($modules[$slug]->version, $meta->version, '<');
+
+                    if ($modules[$slug]->status == ProviderInterface::STATUS_INSTALLABLE)
+                    {
+
+                        //$installable[$modules[$slug]->slug] = $modules[$slug];
+
+                        if ($hasNewerVersion)
+                        {
+                            $this->model->update($slug, ['version' => $meta->version]);
+                        }
+
+                    }
+
+                    //Compare versions and update if needed
+                    elseif ($hasNewerVersion)
+                    {
+                        $moduleAttributes = [
+                            'name'        => $meta->name,
+                            'description' => $meta->description,
+                            'status'      => ProviderInterface::STATUS_UPGRADE,
+                            'updated_on'  => Carbon::now(),
+                        ];
+
+                        $this->model->update($slug, $moduleAttributes);
+                        \Log::info(sprintf('The information of the module "%s" has been updated', $slug));
+                    }
+                }
+
+                //Add new module to db
+                else
+                {
+
+                    $moduleAttributes = [
                         'name'        => $meta->name,
                         'slug'        => $slug,
                         'version'     => $meta->version,
                         'description' => $meta->description,
-                        'status'      => ProviderInterface::STATUS_DISABLED,
+                        'status'      => ProviderInterface::STATUS_INSTALLABLE,
                         'updated_on'  => Carbon::now(),
                     ];
-                    $installable[$slug] = $this->model->insert($slug, $return[$slug]);
+                    $installable[$slug] = $this->model->insert($slug, $moduleAttributes);
+
                 }
             }
         }
-
         return $installable;
     }
 
@@ -239,7 +237,7 @@ class Repository
      */
     public function upgrade($slug)
     {
-        $module = $this->provider->instance($slug);
+        $module = $this->container->instance($slug);
 
         //@todo check if method 'upgrade' exists
         if ($result = $module->upgrade())

@@ -18,6 +18,7 @@ class ModuleServiceProvider extends ServiceProvider {
         	return new Container($app);
         });
 
+
 		$this->app->bindShared('modules.manager', function ($app)
 		{
 			return new Manager($app);

@@ -1,5 +1,6 @@
 <?php namespace Humweb\Module;
 
+$_namespace = __NAMESPACE__;
 abstract class AbstractModule
 {
     /**
@@ -152,8 +153,11 @@ abstract class AbstractModule
     {
         return $this->app['events']->listen($name, $handler, $priority);
     }
+
     protected function fireEvent($name, $params = [])
     {
         return $this->app['events']->fire($name, $params);
     }
 }
+
+return __NAMESPACE__;

@@ -21,9 +21,14 @@ class Container
         $this->app = $app;
     }
 
+    /**
+     * This uses our abstract container
+     *
+     * @param $name
+     * @return AbstractModule
+     */
     public function instance($name)
     {
-
         $name = $this->prefixName($name);
 
         return $this->app->bound($name) ? $this->app[$name] : null;
@@ -47,7 +52,41 @@ class Container
         $name = $this->prefixName($name);
         $this->app[$name] = $this->app->share($binding);
     }
-    
+
+    public function bindByModuleName($module, $paths = [], $namespace = null)
+    {
+        if ( ! $namespace)
+        {
+            $namespace = $this->app['config']['modules::namespace'];
+        }
+        //Check is module is bound to the container
+        //This is to make sure we dont instantiate a module twice.
+        if ( ! $this->bound($module))
+        {
+
+            //Build fully namespaced class name
+            $className = $namespace.'\\'.ucfirst($module).'\\Module';
+
+            if (!class_exists($className))
+            {
+                throw new \Exception("Unable to locate module class: ".$className, 1);
+            }
+
+            //Fire event before we bind module
+            $this->app['events']->fire('modules.binding:'.$module, array($this->app, $module, $className));
+
+            //Bind module provider to container for later use
+            $this->bind($module, function ($app) use ($className, $paths)
+            {
+                return new $className($app, $paths);
+            });
+
+            //Fire an event after we bind module
+            $this->app['events']->fire('modules.bound:'.$module, array($this->app, $module, $className));
+        }
+        return $this->instance($module);
+    }
+
     public function unbind($name)
     {
         unset($this->items[$name]);

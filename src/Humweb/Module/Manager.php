@@ -51,7 +51,7 @@ class Manager extends AbstractManager {
 	 */
 	protected function repository(StoreInterface $store)
 	{
-		return new Repository($this->app['modules'], $this->app['modules.fileloader'], $store);
+		return new Repository($this->app['modules.container'], $this->app['modules.fileloader'], $store);
 	}
 
 	/**
@@ -64,4 +64,14 @@ class Manager extends AbstractManager {
 		return $this->app['config']['modules::driver'];
 	}
 
+    /**
+     * Set the default module driver name.
+     *
+     * @param  string  $name
+     * @return void
+     */
+    public function setDefaultDriver($name)
+    {
+        $this->app['config']['modules::driver'] = $name;
+    }
 }

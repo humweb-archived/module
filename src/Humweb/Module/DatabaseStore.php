@@ -45,7 +45,7 @@ class DatabaseStore implements StoreInterface {
     
     public function getEnabled()
     {
-        return $this->getBy('status', ProviderInterface::STATUS_INSTALLED);
+        return $this->getBy('status', ProviderInterface::STATUS_ENABLED);
     }
     
     public function getDisabled()

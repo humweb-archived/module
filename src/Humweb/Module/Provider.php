@@ -1,5 +1,7 @@
 <?php namespace Humweb\Module;
 
+use Illuminate\Foundation\Application;
+
 /**
  * Module Provider class
  * 
@@ -57,6 +59,8 @@ class Provider implements ProviderInterface
      */
     protected $config;
 
+    protected $modulesEnabled = [];
+
 
     /**
      * Create a new provider instance.
@@ -68,22 +72,29 @@ class Provider implements ProviderInterface
     /**
      * Creates a new Provider instance
      *
-     * @param Illuminate\Foundation\Application $app
-     * @param Container                         $container
-     * @param Manager                           $manager
-     * @param Fileloader|FileloaderInterface    $loader
-     * @param Illuminate\Config\Repository      $config
+     * @param Illuminate\Foundation\Application|Application $app
+     * @param Container                                     $container
+     * @param Manager                                       $manager
+     * @param Fileloader|FileloaderInterface                $loader
+     * @param Illuminate\Config\Repository                  $config
      */
-    public function __construct($app = null, Container $container, Manager $manager, FileloaderInterface $loader, $config)
+    public function __construct(
+        Application $app = null,
+        Container $container,
+        Manager $manager,
+        FileloaderInterface $loader,
+        $config)
     {
-        $this->app       = $app ?: new \Illuminate\Foundation\Application;
+
+        $this->app       = $app ?: new Application;
         $this->container = $container;
         $this->manager   = $manager;
         $this->loader    = $loader;
         $this->config    = $config;
-
         $this->path      = $this->config['modules::path'];
         $this->namespace = $this->config['modules::namespace'];
+        $this->modulesEnabled = array_pluck($this->manager->getEnabled(), 'name', 'id');
+
     }
 
     /**
@@ -173,10 +184,13 @@ class Provider implements ProviderInterface
             return false;
         }
 
+        $enabledModules = array_values($this->modulesEnabled);
+
         //Build an associative array of modules [modulename => path]
         foreach ($modules as $name => $path)
         {
-            if ($this->validateModule($name))
+
+            if (in_array(ucfirst($name), $enabledModules) and $this->validateModule($name))
             {
                 $this->app['events']->fire('modules.booting:'.$name, array($this->app, $name));
                 $paths = $this->addNamespace($name);
@@ -184,7 +198,51 @@ class Provider implements ProviderInterface
                 $this->app['events']->fire('modules.booted:'.$name, array($this->app, $name));
             }
         }
-        $this->app['events']->fire('modules.booted', array($this));
+        return $this->app['events']->fire('modules.booted', array($this));
+    }
+
+    public function install($module)
+    {
+        $paths = $this->addNamespace($module);
+        $instance = $this->bindInstance($module, $paths);
+        if ($instance->install())
+        {
+            $this->manager->install($module);
+            return true;
+        }
+        else {
+            throw new \Exception('Failed to install module');
+        }
+    }
+
+    public function enable($module)
+    {
+        $paths = $this->addNamespace($module);
+        $instance = $this->bindInstance($module, $paths);
+
+        //@todo Add hooks for when module is enables
+        if ($this->manager->enable($module))
+        {
+            return true;
+        }
+        else {
+            throw new \Exception('Failed to enable module');
+        }
+    }
+
+    public function disable($module)
+    {
+        $paths = $this->addNamespace($module);
+        $instance = $this->bindInstance($module, $paths);
+
+        //@todo Add hooks for when module is enables
+        if ($this->manager->disable($module))
+        {
+            return true;
+        }
+        else {
+            throw new \Exception('Failed to disable module');
+        }
     }
 
     /**
@@ -197,7 +255,7 @@ class Provider implements ProviderInterface
      * @throws \Exception
      * @return AbstractModule
      */
-    public function instance($module, $paths = [], $moduleSuffix = 'Module')
+    public function bindInstance($module, $paths = [], $moduleSuffix = 'Module')
     {
         //Check is module is bound to the container
         //This is to make sure we dont instantiate a module twice.
@@ -257,7 +315,7 @@ class Provider implements ProviderInterface
      */
     public function bootModule($module, $paths = [])
     {
-        $instance = $this->instance($module, $paths);
+        $instance = $this->bindInstance($module, $paths);
 
         //Bootsrap
         //@todo maybe check if booted
@@ -293,30 +351,13 @@ class Provider implements ProviderInterface
         $name = strtolower($name);
         $path =  $this->loader->getPath($name);
 
-        // App views
-        $appOverridePath = app_path('views/modules/'.$name);
-        if ($this->app['files']->isDirectory($appOverridePath))
-        {
-            $viewPaths[] = $appOverridePath;
-        }
+        //Views
+        $viewPaths = $this->addViewNamespaces($name, $path);
 
-        // Theme views
-        $themeName = '';
-
-        $themeOverridePath = public_path('views/modules/'.$name);
-        if ($this->app['files']->isDirectory($themeOverridePath))
-        {
-            $viewPaths[] = $themeOverridePath;
-        }
-
-        // Module views
-        $viewPaths[] = $path.'/Views';
-        $viewPaths[] = $path.'/views';
-
-        // Add namespaces
-        //@todo Add theme namespace to here
-        $this->app['view']->addNamespace($name, $viewPaths);
+        //Config
         $this->app['config']->addNamespace($name, $path.'/Config');
+
+        //Language
         $this->app['translator']->addNamespace($name, $path.'/Lang');
 
         return [
@@ -326,6 +367,26 @@ class Provider implements ProviderInterface
         ];
     }
 
+    /**
+     * @param $name
+     * @param $path
+     *
+     * @return array
+     */
+    protected function addViewNamespaces($name, $path)
+    {
+        // Module views
+        $viewPaths = [
+            $path.'/Views',
+            $path.'/views'
+        ];
+
+        // Add namespaces
+        //@todo Add theme namespace to here
+        $this->app['view']->addNamespace($name, $viewPaths);
+
+        return $viewPaths;
+    }
 
 
 }

@@ -38,3 +38,5 @@ class Module extends AbstractModule {
 		];
 	}
 }
+
+return __NAMESPACE__;

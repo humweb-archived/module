@@ -23,12 +23,13 @@ class ModuleGeneratorCommand extends Command {
 
 	protected $creator;
 
-	/**
-	 * Create a new make workbench command instance.
-	 *
-	 * @param  App\Modules\Workbench\ModuleCreator  $creator
-	 * @return void
-	 */
+    /**
+     * Create a new make workbench command instance.
+     *
+     * @param App\Modules\Workbench\ModuleCreator|ModuleCreator $creator
+     *
+     * @return \Humweb\Module\Console\ModuleGeneratorCommand
+     */
 	public function __construct(ModuleCreator $creator)
 	{
 		parent::__construct();
