@@ -1,7 +1,7 @@
 <?php
 
 use Humweb\Module\ArrayStore;
-use Humweb\Module\StoreInterface;
+use Humweb\Module\ProviderInterface;
 
 class ModuleArrayStoreTest extends PHPUnit_Framework_TestCase {
 
@@ -13,23 +13,23 @@ class ModuleArrayStoreTest extends PHPUnit_Framework_TestCase {
 	public $dataset = [
 		'foo' => [
 			'slug' => 'bar',
-			'status' => StoreInterface::STATUS_DISABLED
+			'status' => ProviderInterface::STATUS_DISABLED
 		],
 		'pages' => [
 			'slug' => 'pages',
-			'status' => StoreInterface::STATUS_INSTALL
+			'status' => ProviderInterface::STATUS_INSTALL
 		],
 		'menus' => [
 			'slug' => 'menus',
-			'status' => StoreInterface::STATUS_INSTALLED
+			'status' => ProviderInterface::STATUS_INSTALLED
 		],
 		'settings' => [
 			'slug' => 'settings',
-			'status' => StoreInterface::STATUS_INSTALLED
+			'status' => ProviderInterface::STATUS_INSTALLED
 		],
 		'blog' => [
 			'slug' => 'blog',
-			'status' => StoreInterface::STATUS_UPGRADE
+			'status' => ProviderInterface::STATUS_UPGRADE
 		],
 	];
 
