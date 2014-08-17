@@ -17,7 +17,7 @@ class ModuleArrayStoreTest extends PHPUnit_Framework_TestCase {
 		],
 		'pages' => [
 			'slug' => 'pages',
-			'status' => StoreInterface::STATUS_UPGRADE
+			'status' => StoreInterface::STATUS_UPGRADABLE
 		],
 		'menus' => [
 			'slug' => 'menus',
@@ -29,7 +29,7 @@ class ModuleArrayStoreTest extends PHPUnit_Framework_TestCase {
 		],
 		'blog' => [
 			'slug' => 'blog',
-			'status' => StoreInterface::STATUS_UPGRADE
+			'status' => StoreInterface::STATUS_UPGRADABLE
 		],
 	];
 
