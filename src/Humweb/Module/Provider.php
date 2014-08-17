@@ -1,6 +1,7 @@
 <?php namespace Humweb\Module;
 
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\File;
 
 /**
  * Module Provider class
@@ -194,7 +195,7 @@ class Provider implements ProviderInterface
             {
                 $this->app['events']->fire('modules.booting:'.$name, array($this->app, $name));
                 $paths = $this->addNamespace($name);
-                $this->bootModule($name, $paths);
+                $this->bootModule($name, $path, $paths);
                 $this->app['events']->fire('modules.booted:'.$name, array($this->app, $name));
             }
         }
@@ -205,6 +206,7 @@ class Provider implements ProviderInterface
     {
         $paths = $this->addNamespace($module);
         $instance = $this->bindInstance($module, $paths);
+
         if ($instance->install())
         {
             $this->manager->install($module);
@@ -215,10 +217,37 @@ class Provider implements ProviderInterface
         }
     }
 
-    public function enable($module)
+    public function uninstall($module)
     {
         $paths = $this->addNamespace($module);
         $instance = $this->bindInstance($module, $paths);
+
+        if ($instance->uninstall())
+        {
+            return $this->manager->uninstall($module);
+        }
+        else {
+            throw new \Exception('Failed to install module');
+        }
+    }
+
+    public function delete($module)
+    {
+        $paths = $this->addNamespace($module);
+        $instance = $this->bindInstance($module, $paths);
+        $instance->uninstall();
+
+        if (File::deleteDirectory(base_path($this->getPath().'/'.$module)))
+        {
+            return $this->manager->uninstall($module);
+        }
+        else {
+            throw new \Exception('Failed to uninstall module');
+        }
+    }
+
+    public function enable($module)
+    {
 
         //@todo Add hooks for when module is enables
         if ($this->manager->enable($module))
@@ -232,8 +261,6 @@ class Provider implements ProviderInterface
 
     public function disable($module)
     {
-        $paths = $this->addNamespace($module);
-        $instance = $this->bindInstance($module, $paths);
 
         //@todo Add hooks for when module is enables
         if ($this->manager->disable($module))
@@ -313,9 +340,10 @@ class Provider implements ProviderInterface
      * @throws \Exception
      * @return void
      */
-    public function bootModule($module, $paths = [])
+    public function bootModule($module, $rootPath, $paths = [])
     {
         $instance = $this->bindInstance($module, $paths);
+        $instance->setRootPath($rootPath);
 
         //Bootsrap
         //@todo maybe check if booted

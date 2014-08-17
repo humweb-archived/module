@@ -122,6 +122,17 @@ class Repository
     }
 
     /**
+     * Uninstall module
+     *
+     * @param  string $slug
+     * @return bool
+     */
+    public function uninstall($slug)
+    {
+        return $this->model->delete($slug);
+    }
+
+    /**
      * Helper method to update the status
      *
      * @param string $slug

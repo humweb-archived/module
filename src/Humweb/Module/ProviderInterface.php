@@ -15,7 +15,7 @@ interface ProviderInterface
     public function boot();
     public function bindInstance($module, $moduleSuffix = 'Module');
     public function validateModule($module);
-    public function bootModule($module);
+    public function bootModule($module, $rootPath);
     public function addNamespace($name);
 
 }

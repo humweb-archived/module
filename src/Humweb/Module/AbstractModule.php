@@ -1,6 +1,5 @@
 <?php namespace Humweb\Module;
 
-$_namespace = __NAMESPACE__;
 abstract class AbstractModule
 {
     /**
@@ -70,6 +69,13 @@ abstract class AbstractModule
      */
     public $paths         = [];
 
+    /**
+     * Paths associated with the module
+     *
+     * @var array
+     */
+    public $rootPath         = '';
+
 
     /**
      * Create service provider instance
@@ -114,6 +120,16 @@ abstract class AbstractModule
     }
 
     /**
+     * Uninstall logic for module
+     *
+     * @return bool
+     */
+    public function uninstall()
+    {
+        return true;
+    }
+
+    /**
      * Used modify admin menu
      * 
      * @return array
@@ -147,6 +163,22 @@ abstract class AbstractModule
         {
             $artisan->resolveCommands($commands);
         });
+    }
+
+    /**
+     * @return array
+     */
+    public function getRootPath()
+    {
+        return $this->rootPath;
+    }
+
+    /**
+     * @param array $rootPath
+     */
+    public function setRootPath($rootPath)
+    {
+        $this->rootPath = $rootPath;
     }
 
     protected function onEvent($name, $handler, $priority = null)
