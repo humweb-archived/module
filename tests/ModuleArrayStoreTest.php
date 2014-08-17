@@ -87,7 +87,7 @@ class ModuleArrayStoreTest extends PHPUnit_Framework_TestCase {
 
 		$results = $store->getInstalled();
 
-		$this->assertEquals(3, count($results));
+		$this->assertEquals(4, count($results));
 
 		$this->assertEquals('menus', $results['menus']['slug']);
 	}
@@ -98,7 +98,7 @@ class ModuleArrayStoreTest extends PHPUnit_Framework_TestCase {
 
 		$results = $store->getUpgradable();
 
-		$this->assertEquals(1, count($results));
+		$this->assertEquals(2, count($results));
 
 		$this->assertEquals('blog', $results['blog']['slug']);
 	}
