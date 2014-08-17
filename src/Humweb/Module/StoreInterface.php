@@ -7,9 +7,10 @@
 interface StoreInterface
 {
     const STATUS_DISABLED  = -1;
-    const STATUS_INSTALL   = 0;
+    const STATUS_INSTALLABLE   = 0;
     const STATUS_INSTALLED = 1;
-    const STATUS_UPGRADE   = 2;
+    const STATUS_ENABLED = 2;
+    const STATUS_UPGRADABLE   = 3;
     
     /**
      * Update a specific module record

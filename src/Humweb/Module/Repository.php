@@ -200,7 +200,7 @@ class Repository
                         $moduleAttributes = [
                             'name'        => $meta->name,
                             'description' => $meta->description,
-                            'status'      => ProviderInterface::STATUS_UPGRADE,
+                            'status'      => ProviderInterface::STATUS_UPGRADABLE,
                             'updated_on'  => Carbon::now(),
                         ];
 

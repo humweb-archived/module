@@ -113,7 +113,7 @@ class ArrayStore implements StoreInterface
     {
         return array_filter($this->storage, function($val)
         {
-            return $val['status'] == ProviderInterface::STATUS_INSTALLED or $val['status'] == StoreInterface::STATUS_UPGRADE;
+            return $val['status'] == ProviderInterface::STATUS_INSTALLED or $val['status'] == ProviderInterface::STATUS_UPGRADABLE;
         });
     }
 
@@ -126,7 +126,7 @@ class ArrayStore implements StoreInterface
     {
         return array_filter($this->storage, function($val)
         {
-            return $val['status'] === ProviderInterface::STATUS_UPGRADE;
+            return $val['status'] === ProviderInterface::STATUS_UPGRADABLE;
         });
     }
 }

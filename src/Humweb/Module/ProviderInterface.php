@@ -6,7 +6,7 @@ interface ProviderInterface
     const STATUS_INSTALLABLE   = 0;
     const STATUS_INSTALLED = 1;
     const STATUS_ENABLED = 2;
-    const STATUS_UPGRADE   = 3;
+    const STATUS_UPGRADABLE   = 3;
 
     public function getPath();
     public function getNamespace();

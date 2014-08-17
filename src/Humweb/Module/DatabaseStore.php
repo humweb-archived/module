@@ -60,7 +60,7 @@ class DatabaseStore implements StoreInterface {
 
     public function getUpgradable()
     {
-        return $this->getBy('status', ProviderInterface::STATUS_UPGRADE);
+        return $this->getBy('status', ProviderInterface::STATUS_UPGRADABLE);
     }
 
     public function insert($slug, array $attributes = [])
