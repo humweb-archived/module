@@ -23,19 +23,7 @@ class Module extends AbstractModule {
 	public function upgrade(){return true;}
 	public function admin_menu()
 	{
-		return [
-			'Users' => [
-				[
-					'label' => 'List Users',
-					'url' => '/admin/users',
-                			'groups' => ['admin'],
-					'children' => [
-						['label' => 'Groups', 'url' => '/admin/groups'],
-						['label' => 'Permissions', 'url' => '/admin/permissions']
-					]
-				]
-			]
-		];
+		return [];
 	}
 }
 
