@@ -94,7 +94,10 @@ class Provider implements ProviderInterface
         $this->config    = $config;
         $this->path      = $this->config['modules::path'];
         $this->namespace = $this->config['modules::namespace'];
-        $this->modulesEnabled = array_pluck($this->manager->getEnabled(), 'name', 'id');
+
+        //Dont load modules on setup
+        //Check for database connection
+        $this->modulesEnabled = $this->app->runningInConsole() ? [] : array_pluck($this->manager->getEnabled(), 'name', 'id');
 
     }
 
