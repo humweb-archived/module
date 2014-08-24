@@ -7,7 +7,7 @@
     "authors": [
         {
             "name": "humweb shofner",
-            "email": "humweb@humboldtweb.com"
+            "email": "ryun@humboldtweb.com"
         }
     ],
     "require": {
@@ -25,11 +25,6 @@
         "psr-0": {
             "Humweb\\Module\\": "src/",
             "Teststubs": "tests/"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
         }
     },
     "minimum-stability": "dev"
