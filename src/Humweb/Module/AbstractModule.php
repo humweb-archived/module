@@ -1,5 +1,7 @@
 <?php namespace Humweb\Module;
 
+use Illuminate\Foundation\AliasLoader;
+
 abstract class AbstractModule
 {
     /**
@@ -8,6 +10,8 @@ abstract class AbstractModule
      * @var Illuminate\Foundation\Application
      */
     protected $app;
+
+    protected $aliasLoader;
 
     /**
      * Module name
@@ -87,6 +91,7 @@ abstract class AbstractModule
     {
         $this->app = $app;
         $this->paths = $paths;
+        $this->aliasLoader = AliasLoader::getInstance();
     }
 
     /**
@@ -163,6 +168,18 @@ abstract class AbstractModule
         {
             $artisan->resolveCommands($commands);
         });
+    }
+
+    /**
+     * Register a Facade/Alias with the framework
+     *
+     * @param $name
+     * @param $class
+     * @return void
+     */
+    public function alias($name, $class)
+    {
+       $this->aliasLoader->alias($name, $class);
     }
 
     /**
