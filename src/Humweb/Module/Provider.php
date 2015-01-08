@@ -97,7 +97,8 @@ class Provider implements ProviderInterface
 
         //Dont load modules on setup
         //Check for database connection
-        $this->modulesEnabled = $this->app->runningInConsole() ? [] : array_pluck($this->manager->getEnabled(), 'name', 'id');
+        //$this->modulesEnabled = $this->app->runningInConsole() ? [] : array_pluck($this->manager->getEnabled(), 'name', 'id');
+        $this->modulesEnabled = array_pluck($this->manager->getEnabled(), 'name', 'id');
 
     }
 
@@ -171,6 +172,7 @@ class Provider implements ProviderInterface
         {
             return $loader->getFolders();
         });
+
         $modules = $loader->getFolders();
 
         // Maybe? collect module dirs

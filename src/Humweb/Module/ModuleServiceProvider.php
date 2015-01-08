@@ -41,6 +41,8 @@ class ModuleServiceProvider extends ServiceProvider {
 
 		$this->registerSetupCommand();
 		$this->registerCreatorCommand();
+        $this->registerImportUnknownCommand();
+        $this->registerInstallModuleCommand();
     }
 	
 
@@ -53,7 +55,26 @@ class ModuleServiceProvider extends ServiceProvider {
 
 		$this->commands('modules.command.setup');
 	}
-	
+
+	public function registerInstallModuleCommand()
+	{
+        $this->app->bindShared('modules.command.install', function($app)
+        {
+            return new Console\InstallModuleCommand($app);
+        });
+
+		$this->commands('modules.command.install');
+	}
+	public function registerImportUnknownCommand()
+	{
+        $this->app->bindShared('modules.command.scan', function($app)
+        {
+            return new Console\ImportUnknownModulesCommand($app);
+        });
+
+		$this->commands('modules.command.scan');
+	}
+
 	public function registerCreatorCommand()
 	{
 		$this->app->bindShared('modules.creator', function($app)
